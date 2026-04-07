@@ -1,9 +1,9 @@
 aid: watttime
 name: WattTime
 description: >-
-  The WattTime API provides access to real-time, forecast, and historical data
-  for electric grids around the world, including marginal emissions data. For
-  the different signals we provide, see the data signals page. 
+  The WattTime API provides access to real-time, forecast, and historical data for
+  electric grids around the world, including marginal emissions data. For the different
+  signals we provide, see the data signals page.
 type: Index
 position: Consumer
 access: 3rd-Party
@@ -19,9 +19,9 @@ apis:
   - aid: watttime:watttime
     name: WattTime
     description: >-
-      The WattTime API provides access to real-time, forecast, and historical
-      data for electric grids around the world, including marginal emissions
-      data. For the different signals we provide, see the data signals page. 
+      The WattTime API provides access to real-time, forecast, and historical data
+      for electric grids around the world, including marginal emissions data. For
+      the different signals we provide, see the data signals page.
     humanURL: ' https://docs.watttime.org/'
     tags:
       - API
