@@ -1,0 +1,426 @@
+naftiko: "1.0.0-alpha1"
+
+info:
+  label: "WattTime API"
+  description: >-
+    Real-time, forecast, and historical marginal emissions data for 342 electric
+    grid regions across 210 countries. Provides CO2 MOER, health damage, and
+    average emissions rate signals for carbon-aware computing.
+  tags:
+    - Emissions
+    - Carbon
+    - Electricity Grid
+    - Sustainability
+  created: "2026-05-03"
+  modified: "2026-05-03"
+
+binds:
+  - namespace: env
+    keys:
+      WATTTIME_USERNAME: WATTTIME_USERNAME
+      WATTTIME_PASSWORD: WATTTIME_PASSWORD
+
+capability:
+  consumes:
+    - type: http
+      namespace: watttime
+      baseUri: https://api.watttime.org/v3
+      description: "WattTime Data API v3 for marginal emissions and grid data."
+      authentication:
+        type: bearer
+        token: "{{WATTTIME_TOKEN}}"
+      resources:
+        - name: authentication
+          path: /login
+          description: "Obtain JWT bearer token via HTTP Basic Auth."
+          operations:
+            - name: login
+              method: GET
+              description: "Authenticate and obtain a JWT access token."
+              outputRawFormat: json
+              outputParameters:
+                - name: token
+                  type: string
+                  value: "$.token"
+
+        - name: account
+          path: /my-access
+          description: "Account access information and available grid regions."
+          operations:
+            - name: get-my-access
+              method: GET
+              description: "Get accessible grid regions and model metadata."
+              inputParameters:
+                - name: signal_type
+                  in: query
+                  type: string
+                  required: false
+                  description: "Filter by signal type (co2_moer, co2_aoer, health_damage)."
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+
+        - name: grid-regions
+          path: /region-from-loc
+          description: "Identify the grid region for a geographic location."
+          operations:
+            - name: get-region-from-location
+              method: GET
+              description: "Get the grid balancing authority for lat/lon coordinates."
+              inputParameters:
+                - name: latitude
+                  in: query
+                  type: number
+                  required: true
+                  description: "Latitude in decimal degrees."
+                - name: longitude
+                  in: query
+                  type: number
+                  required: true
+                  description: "Longitude in decimal degrees."
+                - name: signal_type
+                  in: query
+                  type: string
+                  required: false
+                  description: "Signal type to check region for."
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+
+        - name: emissions-data
+          path: /data
+          description: "Historical emissions data for a grid region."
+          operations:
+            - name: get-historical-data
+              method: GET
+              description: "Get historical emissions data (up to 32-day window)."
+              inputParameters:
+                - name: region
+                  in: query
+                  type: string
+                  required: true
+                  description: "Grid region identifier."
+                - name: signal_type
+                  in: query
+                  type: string
+                  required: true
+                  description: "Emissions signal type."
+                - name: start
+                  in: query
+                  type: string
+                  required: true
+                  description: "Start datetime (ISO 8601 UTC)."
+                - name: end
+                  in: query
+                  type: string
+                  required: true
+                  description: "End datetime (ISO 8601 UTC)."
+                - name: model
+                  in: query
+                  type: string
+                  required: false
+                  description: "Model version date."
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+
+        - name: forecasts
+          path: /forecast
+          description: "Real-time and forecast emissions data."
+          operations:
+            - name: get-forecast
+              method: GET
+              description: "Get current emissions forecast (updated every 5 minutes)."
+              inputParameters:
+                - name: region
+                  in: query
+                  type: string
+                  required: true
+                  description: "Grid region identifier."
+                - name: signal_type
+                  in: query
+                  type: string
+                  required: true
+                  description: "Emissions signal type."
+                - name: horizon_hours
+                  in: query
+                  type: integer
+                  required: false
+                  description: "Forecast horizon in hours (max 72)."
+                - name: model
+                  in: query
+                  type: string
+                  required: false
+                  description: "Model version date."
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+            - name: get-forecast-historical
+              method: GET
+              description: "Get historically generated forecast data for back-testing."
+              inputParameters:
+                - name: region
+                  in: query
+                  type: string
+                  required: true
+                  description: "Grid region identifier."
+                - name: signal_type
+                  in: query
+                  type: string
+                  required: true
+                  description: "Emissions signal type."
+                - name: start
+                  in: query
+                  type: string
+                  required: true
+                  description: "Start of historical forecast window."
+                - name: end
+                  in: query
+                  type: string
+                  required: true
+                  description: "End of historical forecast window."
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+
+        - name: historical-download
+          path: /historical
+          description: "Download multi-year historical emissions CSV files."
+          operations:
+            - name: download-historical-data
+              method: GET
+              description: "Get download URL for multi-year historical emissions CSV."
+              inputParameters:
+                - name: region
+                  in: query
+                  type: string
+                  required: true
+                  description: "Grid region identifier."
+                - name: signal_type
+                  in: query
+                  type: string
+                  required: true
+                  description: "Emissions signal type."
+                - name: start
+                  in: query
+                  type: string
+                  required: false
+                  description: "Start date (YYYY-MM-DD)."
+                - name: end
+                  in: query
+                  type: string
+                  required: false
+                  description: "End date (YYYY-MM-DD)."
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+
+        - name: maps
+          path: /maps
+          description: "GeoJSON grid region boundary maps."
+          operations:
+            - name: get-grid-maps
+              method: GET
+              description: "Get GeoJSON boundaries for accessible grid regions."
+              inputParameters:
+                - name: signal_type
+                  in: query
+                  type: string
+                  required: false
+                  description: "Filter by signal type."
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+
+  exposes:
+    - type: rest
+      port: 8100
+      namespace: watttime-rest
+      resources:
+        - path: /v1/login
+          name: authentication
+          description: "Obtain WattTime API access token."
+          operations:
+            - method: GET
+              name: login
+              description: "Authenticate and get JWT token."
+              call: "watttime.login"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+
+        - path: /v1/my-access
+          name: account
+          description: "Get account access information."
+          operations:
+            - method: GET
+              name: get-my-access
+              description: "List accessible grid regions."
+              call: "watttime.get-my-access"
+              with:
+                signal_type: "rest.signal_type"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+
+        - path: /v1/region-from-loc
+          name: grid-regions
+          description: "Identify grid region from coordinates."
+          operations:
+            - method: GET
+              name: get-region-from-location
+              description: "Get grid region for lat/lon."
+              call: "watttime.get-region-from-location"
+              with:
+                latitude: "rest.latitude"
+                longitude: "rest.longitude"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+
+        - path: /v1/emissions/data
+          name: emissions-data
+          description: "Historical emissions data."
+          operations:
+            - method: GET
+              name: get-historical-data
+              description: "Get historical emissions data."
+              call: "watttime.get-historical-data"
+              with:
+                region: "rest.region"
+                signal_type: "rest.signal_type"
+                start: "rest.start"
+                end: "rest.end"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+
+        - path: /v1/emissions/forecast
+          name: forecasts
+          description: "Emissions forecasts."
+          operations:
+            - method: GET
+              name: get-forecast
+              description: "Get current emissions forecast."
+              call: "watttime.get-forecast"
+              with:
+                region: "rest.region"
+                signal_type: "rest.signal_type"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+
+    - type: mcp
+      port: 9100
+      namespace: watttime-mcp
+      transport: http
+      tools:
+        - name: login
+          description: "Authenticate with the WattTime API and obtain an access token."
+          hints:
+            readOnly: true
+            openWorld: false
+          call: "watttime.login"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: get-my-access
+          description: "List accessible grid regions and available model versions."
+          hints:
+            readOnly: true
+            openWorld: false
+          call: "watttime.get-my-access"
+          with:
+            signal_type: "tools.signal_type"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: get-region-from-location
+          description: "Identify the grid region for latitude/longitude coordinates."
+          hints:
+            readOnly: true
+            openWorld: true
+          call: "watttime.get-region-from-location"
+          with:
+            latitude: "tools.latitude"
+            longitude: "tools.longitude"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: get-historical-data
+          description: "Get historical marginal emissions data for a grid region (up to 32 days)."
+          hints:
+            readOnly: true
+            openWorld: false
+          call: "watttime.get-historical-data"
+          with:
+            region: "tools.region"
+            signal_type: "tools.signal_type"
+            start: "tools.start"
+            end: "tools.end"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: get-forecast
+          description: "Get real-time emissions forecast for a grid region (updated every 5 minutes)."
+          hints:
+            readOnly: true
+            openWorld: true
+          call: "watttime.get-forecast"
+          with:
+            region: "tools.region"
+            signal_type: "tools.signal_type"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: get-forecast-historical
+          description: "Get historically generated forecast data for back-testing carbon scheduling."
+          hints:
+            readOnly: true
+            openWorld: false
+          call: "watttime.get-forecast-historical"
+          with:
+            region: "tools.region"
+            signal_type: "tools.signal_type"
+            start: "tools.start"
+            end: "tools.end"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: download-historical-data
+          description: "Get download URL for multi-year historical emissions CSV data."
+          hints:
+            readOnly: true
+            openWorld: false
+          call: "watttime.download-historical-data"
+          with:
+            region: "tools.region"
+            signal_type: "tools.signal_type"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: get-grid-maps
+          description: "Get GeoJSON boundaries for accessible grid regions."
+          hints:
+            readOnly: true
+            openWorld: true
+          call: "watttime.get-grid-maps"
+          with:
+            signal_type: "tools.signal_type"
+          outputParameters:
+            - type: object
+              mapping: "$."

@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/watttime/refs/heads/main/json-structure/watttime-region-response-structure.json",
+  "name": "RegionResponse",
+  "description": "RegionResponse schema from WattTime API",
+  "type": "object",
+  "properties": {
+    "region": {
+      "type": "string",
+      "description": "Grid region identifier for the specified coordinates.",
+      "example": "CAISO_NORTH"
+    },
+    "region_full_name": {
+      "type": "string",
+      "description": "Human-readable full name of the grid region.",
+      "example": "California ISO - North"
+    },
+    "signal_type": {
+      "type": "string",
+      "description": "Signal type for which the region was resolved.",
+      "example": "co2_moer"
+    }
+  }
+}

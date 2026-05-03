@@ -1,0 +1,120 @@
+{
+  "@context": {
+    "@version": 1.1,
+    "wt": "https://watttime.org/schema/",
+    "schema": "https://schema.org/",
+    "dcterms": "http://purl.org/dc/terms/",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "DataMeta": "wt:DataMeta",
+    "DataPoint": "wt:DataPoint",
+    "DataResponse": "wt:DataResponse",
+    "ForecastMeta": "wt:ForecastMeta",
+    "ForecastResponse": "wt:ForecastResponse",
+    "GridMapsResponse": "wt:GridMapsResponse",
+    "HistoricalDownloadResponse": "wt:HistoricalDownloadResponse",
+    "LoginResponse": "wt:LoginResponse",
+    "MyAccessResponse": "wt:MyAccessResponse",
+    "RegionAccess": "wt:RegionAccess",
+    "RegionResponse": "wt:RegionResponse",
+    "RegisterRequest": "wt:RegisterRequest",
+    "RegisterResponse": "wt:RegisterResponse",
+    "region": {
+      "@id": "wt:region",
+      "@type": "xsd:string"
+    },
+    "signalType": {
+      "@id": "wt:signal_type",
+      "@type": "xsd:string"
+    },
+    "model": {
+      "@id": "wt:model",
+      "@type": "@id"
+    },
+    "date": {
+      "@id": "wt:date",
+      "@type": "xsd:string"
+    },
+    "units": {
+      "@id": "wt:units",
+      "@type": "xsd:string"
+    },
+    "pointTime": {
+      "@id": "wt:point_time",
+      "@type": "xsd:dateTime"
+    },
+    "value": {
+      "@id": "wt:value",
+      "@type": "xsd:double"
+    },
+    "version": {
+      "@id": "schema:version"
+    },
+    "meta": {
+      "@id": "wt:meta",
+      "@type": "@id"
+    },
+    "data": {
+      "@id": "wt:data",
+      "@container": "@set"
+    },
+    "generatedAt": {
+      "@id": "wt:generated_at",
+      "@type": "xsd:dateTime"
+    },
+    "type": {
+      "@id": "wt:type",
+      "@type": "xsd:string"
+    },
+    "features": {
+      "@id": "wt:features",
+      "@container": "@set"
+    },
+    "downloadUrl": {
+      "@id": "wt:download_url",
+      "@type": "@id"
+    },
+    "token": {
+      "@id": "wt:token",
+      "@type": "xsd:string"
+    },
+    "regions": {
+      "@id": "wt:regions",
+      "@container": "@set"
+    },
+    "regionFullName": {
+      "@id": "wt:region_full_name",
+      "@type": "xsd:string"
+    },
+    "dataStart": {
+      "@id": "wt:data_start",
+      "@type": "xsd:dateTime"
+    },
+    "access": {
+      "@id": "wt:access",
+      "@type": "xsd:string"
+    },
+    "username": {
+      "@id": "wt:username",
+      "@type": "xsd:string"
+    },
+    "password": {
+      "@id": "wt:password",
+      "@type": "xsd:string"
+    },
+    "email": {
+      "@id": "schema:email"
+    },
+    "org": {
+      "@id": "wt:org",
+      "@type": "xsd:string"
+    },
+    "user": {
+      "@id": "wt:user",
+      "@type": "xsd:string"
+    },
+    "ok": {
+      "@id": "wt:ok",
+      "@type": "xsd:string"
+    }
+  }
+}

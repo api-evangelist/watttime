@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/watttime/refs/heads/main/json-structure/watttime-register-response-structure.json",
+  "name": "RegisterResponse",
+  "description": "RegisterResponse schema from WattTime API",
+  "type": "object",
+  "properties": {
+    "user": {
+      "type": "string",
+      "description": "Created username.",
+      "example": "johndoe"
+    },
+    "ok": {
+      "type": "string",
+      "description": "Success message.",
+      "example": "User created"
+    }
+  }
+}

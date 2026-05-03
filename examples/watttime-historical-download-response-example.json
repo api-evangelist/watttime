@@ -1,0 +1,6 @@
+{
+  "region": "CAISO_NORTH",
+  "signal_type": "co2_moer",
+  "model": "2026-03-01",
+  "download_url": "https://storage.watttime.org/historical/CAISO_NORTH_co2_moer_2023.csv.gz"
+}

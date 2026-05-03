@@ -1,0 +1,259 @@
+vocabulary: "1.0.0"
+
+info:
+  provider: "WattTime"
+  description: >-
+    Unified vocabulary for the WattTime Data API, mapping marginal emissions
+    signals, grid regions, and carbon-aware computing workflows across
+    operational (OpenAPI) and capability (Naftiko) dimensions.
+  created: "2026-05-03"
+  modified: "2026-05-03"
+
+operational:
+  apis:
+    - namespace: watttime
+      version: "3.0"
+      baseUrl: https://api.watttime.org/v3
+      status: active
+      description: WattTime Data API v3
+
+  resources:
+    - name: authentication
+      api: watttime
+      actions:
+        - login
+    - name: account
+      api: watttime
+      actions:
+        - get-my-access
+    - name: grid-regions
+      api: watttime
+      actions:
+        - get-region-from-location
+        - get-grid-maps
+    - name: emissions-data
+      api: watttime
+      actions:
+        - get-historical-data
+        - download-historical-data
+    - name: forecasts
+      api: watttime
+      actions:
+        - get-forecast
+        - get-forecast-historical
+
+  actions:
+    - name: login
+      http_method: GET
+      pattern: read
+      description: Authenticate and obtain JWT bearer token
+    - name: get-my-access
+      http_method: GET
+      pattern: read
+      description: List accessible grid regions and model metadata
+    - name: get-region-from-location
+      http_method: GET
+      pattern: query
+      description: Identify grid region for geographic coordinates
+    - name: get-historical-data
+      http_method: GET
+      pattern: read
+      description: Retrieve historical emissions data (up to 32 days)
+    - name: download-historical-data
+      http_method: GET
+      pattern: read
+      description: Get download URL for multi-year historical emissions CSV
+    - name: get-forecast
+      http_method: GET
+      pattern: read
+      description: Get real-time and forecast emissions data
+    - name: get-forecast-historical
+      http_method: GET
+      pattern: read
+      description: Retrieve historically generated forecast data
+    - name: get-grid-maps
+      http_method: GET
+      pattern: read
+      description: Get GeoJSON boundaries for grid regions
+
+  schemas:
+    core:
+      - name: DataPoint
+        description: Single emissions measurement with timestamp and value
+        key_properties:
+          - point_time
+          - value
+          - version
+      - name: DataResponse
+        description: Container for historical emissions data with metadata
+        key_properties:
+          - meta
+          - data
+      - name: ForecastResponse
+        description: Container for forecast data with generation timestamp
+        key_properties:
+          - meta
+          - data
+          - generated_at
+    regions:
+      - name: RegionResponse
+        description: Grid region identification result
+        key_properties:
+          - region
+          - region_full_name
+          - signal_type
+      - name: RegionAccess
+        description: Grid region access details with model metadata
+        key_properties:
+          - region
+          - signal_type
+          - model
+          - data_start
+    account:
+      - name: LoginResponse
+        description: JWT bearer token for API authentication
+        key_properties:
+          - token
+      - name: MyAccessResponse
+        description: Account access information with region list
+        key_properties:
+          - signal_type
+          - regions
+
+  parameters:
+    identifiers:
+      - name: region
+        description: Grid region identifier (e.g., CAISO_NORTH)
+      - name: signal_type
+        description: Emissions signal type (co2_moer, co2_aoer, health_damage)
+    filters:
+      - name: start
+        description: Start of time window (ISO 8601 UTC)
+      - name: end
+        description: End of time window (ISO 8601 UTC)
+      - name: model
+        description: Model version date (YYYY-MM-DD)
+      - name: horizon_hours
+        description: Forecast horizon in hours
+    location:
+      - name: latitude
+        description: Geographic latitude in decimal degrees
+      - name: longitude
+        description: Geographic longitude in decimal degrees
+
+  enums:
+    signal_types:
+      - co2_moer
+      - co2_aoer
+      - health_damage
+    units:
+      - lbs_co2_per_mwh
+      - moer
+    access_levels:
+      - read
+      - preview
+
+  authentication:
+    schemes:
+      - name: basicAuth
+        type: http
+        scheme: basic
+        usage: Login endpoint only
+      - name: bearerAuth
+        type: http
+        scheme: bearer
+        format: JWT
+        expiry: 30 minutes
+        usage: All data endpoints
+
+capability:
+  workflows:
+    - name: carbon-aware-computing
+      file: capabilities/carbon-aware-computing.yaml
+      description: End-to-end carbon-aware scheduling and sustainability reporting
+      apis_combined:
+        - watttime
+      tool_count: 8
+      personas:
+        - Software Engineer
+        - Platform Engineer
+        - Sustainability Analyst
+
+  personas:
+    - id: software-engineer
+      name: Software Engineer
+      description: Developer scheduling compute workloads based on carbon intensity
+      workflows:
+        - carbon-aware-computing
+    - id: platform-engineer
+      name: Platform Engineer
+      description: Platform team automating carbon-aware infrastructure scheduling
+      workflows:
+        - carbon-aware-computing
+    - id: sustainability-analyst
+      name: Sustainability Analyst
+      description: Analyst measuring and reporting Scope 2 emissions reductions
+      workflows:
+        - carbon-aware-computing
+
+  domains:
+    - name: Emissions Intelligence
+      description: Real-time and historical marginal emissions data
+      resources:
+        - emissions-data
+        - forecasts
+    - name: Grid Geography
+      description: Grid region discovery and boundary mapping
+      resources:
+        - grid-regions
+    - name: Access Management
+      description: Authentication and subscription access control
+      resources:
+        - authentication
+        - account
+
+  namespaces:
+    - name: watttime
+      type: consumed
+      base_uri: https://api.watttime.org/v3
+    - name: carbon-aware-api
+      type: rest-exposed
+      port: 8080
+    - name: carbon-aware-mcp
+      type: mcp-exposed
+      port: 9090
+
+  binds:
+    - WATTTIME_USERNAME
+    - WATTTIME_PASSWORD
+
+crossReference:
+  - resource: emissions-data
+    operations:
+      - get-historical-data
+      - download-historical-data
+    workflows:
+      - carbon-aware-computing
+    personas:
+      - Sustainability Analyst
+      - Software Engineer
+
+  - resource: forecasts
+    operations:
+      - get-forecast
+      - get-forecast-historical
+    workflows:
+      - carbon-aware-computing
+    personas:
+      - Software Engineer
+      - Platform Engineer
+
+  - resource: grid-regions
+    operations:
+      - get-region-from-location
+      - get-grid-maps
+    workflows:
+      - carbon-aware-computing
+    personas:
+      - Software Engineer
+      - Platform Engineer

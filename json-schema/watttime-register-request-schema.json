@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/watttime/refs/heads/main/json-schema/watttime-register-request-schema.json",
+  "title": "RegisterRequest",
+  "description": "RegisterRequest schema from WattTime API",
+  "type": "object",
+  "properties": {
+    "username": {
+      "type": "string",
+      "description": "Desired username for the new account.",
+      "example": "johndoe"
+    },
+    "password": {
+      "type": "string",
+      "description": "Password for the new account.",
+      "example": "securepassword123"
+    },
+    "email": {
+      "type": "string",
+      "format": "email",
+      "description": "Email address for the new account.",
+      "example": "johndoe@example.com"
+    },
+    "org": {
+      "type": "string",
+      "description": "Organization or company name.",
+      "example": "Example Organization"
+    }
+  },
+  "required": [
+    "username",
+    "password",
+    "email",
+    "org"
+  ]
+}

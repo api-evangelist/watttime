@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/watttime/refs/heads/main/json-schema/watttime-login-response-schema.json",
+  "title": "LoginResponse",
+  "description": "LoginResponse schema from WattTime API",
+  "type": "object",
+  "properties": {
+    "token": {
+      "type": "string",
+      "description": "JWT bearer token for subsequent API requests. Expires after 30 minutes.",
+      "example": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.example"
+    }
+  }
+}

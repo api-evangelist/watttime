@@ -1,0 +1,64 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/watttime/refs/heads/main/json-structure/watttime-data-response-structure.json",
+  "name": "DataResponse",
+  "description": "DataResponse schema from WattTime API",
+  "type": "object",
+  "properties": {
+    "meta": {
+      "type": "object",
+      "properties": {
+        "region": {
+          "type": "string",
+          "description": "Grid region identifier.",
+          "example": "CAISO_NORTH"
+        },
+        "signal_type": {
+          "type": "string",
+          "description": "Signal type of the returned data.",
+          "example": "co2_moer"
+        },
+        "model": {
+          "type": "object",
+          "properties": {
+            "date": {
+              "type": "string",
+              "description": "Model version date.",
+              "example": "2026-03-01"
+            }
+          }
+        },
+        "units": {
+          "type": "string",
+          "description": "Units for the data values.",
+          "example": "lbs_co2_per_mwh"
+        }
+      }
+    },
+    "data": {
+      "type": "array",
+      "description": "Array of emissions data points.",
+      "items": {
+        "type": "object",
+        "properties": {
+          "point_time": {
+            "type": "datetime",
+            "description": "Timestamp for the emissions data point (ISO 8601 UTC).",
+            "example": "2026-04-01T00:00:00+00:00"
+          },
+          "value": {
+            "type": "double",
+            "format": "double",
+            "description": "Emissions value in the units specified by the response meta.",
+            "example": 412.5
+          },
+          "version": {
+            "type": "string",
+            "description": "Model version used for this data point.",
+            "example": "2026-03-01"
+          }
+        }
+      }
+    }
+  }
+}

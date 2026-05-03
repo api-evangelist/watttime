@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/watttime/refs/heads/main/json-structure/watttime-data-point-structure.json",
+  "name": "DataPoint",
+  "description": "DataPoint schema from WattTime API",
+  "type": "object",
+  "properties": {
+    "point_time": {
+      "type": "datetime",
+      "description": "Timestamp for the emissions data point (ISO 8601 UTC).",
+      "example": "2026-04-01T00:00:00+00:00"
+    },
+    "value": {
+      "type": "double",
+      "format": "double",
+      "description": "Emissions value in the units specified by the response meta.",
+      "example": 412.5
+    },
+    "version": {
+      "type": "string",
+      "description": "Model version used for this data point.",
+      "example": "2026-03-01"
+    }
+  }
+}

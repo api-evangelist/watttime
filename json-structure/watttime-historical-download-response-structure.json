@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/watttime/refs/heads/main/json-structure/watttime-historical-download-response-structure.json",
+  "name": "HistoricalDownloadResponse",
+  "description": "HistoricalDownloadResponse schema from WattTime API",
+  "type": "object",
+  "properties": {
+    "region": {
+      "type": "string",
+      "description": "Grid region identifier.",
+      "example": "CAISO_NORTH"
+    },
+    "signal_type": {
+      "type": "string",
+      "description": "Signal type.",
+      "example": "co2_moer"
+    },
+    "model": {
+      "type": "string",
+      "description": "Model version date used.",
+      "example": "2026-03-01"
+    },
+    "download_url": {
+      "type": "uri",
+      "description": "URL to download the historical CSV file.",
+      "example": "https://storage.watttime.org/historical/CAISO_NORTH_co2_moer_2023.csv.gz"
+    }
+  }
+}

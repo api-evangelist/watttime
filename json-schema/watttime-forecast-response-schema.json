@@ -1,0 +1,71 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/watttime/refs/heads/main/json-schema/watttime-forecast-response-schema.json",
+  "title": "ForecastResponse",
+  "description": "ForecastResponse schema from WattTime API",
+  "type": "object",
+  "properties": {
+    "meta": {
+      "type": "object",
+      "properties": {
+        "region": {
+          "type": "string",
+          "description": "Grid region identifier.",
+          "example": "CAISO_NORTH"
+        },
+        "signal_type": {
+          "type": "string",
+          "description": "Signal type of the forecast.",
+          "example": "co2_moer"
+        },
+        "model": {
+          "type": "object",
+          "properties": {
+            "date": {
+              "type": "string",
+              "description": "Model version date.",
+              "example": "2026-03-01"
+            }
+          }
+        },
+        "units": {
+          "type": "string",
+          "description": "Units for the forecast values.",
+          "example": "lbs_co2_per_mwh"
+        },
+        "generated_at": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Timestamp when the forecast was generated.",
+          "example": "2026-05-03T10:00:00+00:00"
+        }
+      }
+    },
+    "data": {
+      "type": "array",
+      "description": "Array of forecast data points.",
+      "items": {
+        "type": "object",
+        "properties": {
+          "point_time": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Timestamp for the emissions data point (ISO 8601 UTC).",
+            "example": "2026-04-01T00:00:00+00:00"
+          },
+          "value": {
+            "type": "number",
+            "format": "double",
+            "description": "Emissions value in the units specified by the response meta.",
+            "example": 412.5
+          },
+          "version": {
+            "type": "string",
+            "description": "Model version used for this data point.",
+            "example": "2026-03-01"
+          }
+        }
+      }
+    }
+  }
+}

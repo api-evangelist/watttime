@@ -1,0 +1,34 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/watttime/refs/heads/main/json-schema/watttime-data-meta-schema.json",
+  "title": "DataMeta",
+  "description": "DataMeta schema from WattTime API",
+  "type": "object",
+  "properties": {
+    "region": {
+      "type": "string",
+      "description": "Grid region identifier.",
+      "example": "CAISO_NORTH"
+    },
+    "signal_type": {
+      "type": "string",
+      "description": "Signal type of the returned data.",
+      "example": "co2_moer"
+    },
+    "model": {
+      "type": "object",
+      "properties": {
+        "date": {
+          "type": "string",
+          "description": "Model version date.",
+          "example": "2026-03-01"
+        }
+      }
+    },
+    "units": {
+      "type": "string",
+      "description": "Units for the data values.",
+      "example": "lbs_co2_per_mwh"
+    }
+  }
+}

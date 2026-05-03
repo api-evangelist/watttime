@@ -1,0 +1,59 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/watttime/refs/heads/main/json-structure/watttime-my-access-response-structure.json",
+  "name": "MyAccessResponse",
+  "description": "MyAccessResponse schema from WattTime API",
+  "type": "object",
+  "properties": {
+    "signal_type": {
+      "type": "string",
+      "description": "The signal type filter applied to the response.",
+      "example": "co2_moer"
+    },
+    "regions": {
+      "type": "array",
+      "description": "List of accessible grid regions with model metadata.",
+      "items": {
+        "type": "object",
+        "properties": {
+          "region": {
+            "type": "string",
+            "description": "Grid region identifier.",
+            "example": "CAISO_NORTH"
+          },
+          "region_full_name": {
+            "type": "string",
+            "description": "Human-readable full name of the grid region.",
+            "example": "California ISO - North"
+          },
+          "signal_type": {
+            "type": "string",
+            "description": "Signal type available for this region.",
+            "example": "co2_moer"
+          },
+          "model": {
+            "type": "object",
+            "description": "Current model version metadata.",
+            "properties": {
+              "date": {
+                "type": "string",
+                "description": "Model version date.",
+                "example": "2026-03-01"
+              }
+            }
+          },
+          "data_start": {
+            "type": "datetime",
+            "description": "Earliest available data point for this region.",
+            "example": "2019-01-01T00:00:00Z"
+          },
+          "access": {
+            "type": "string",
+            "description": "Access level for this region.",
+            "example": "read"
+          }
+        }
+      }
+    }
+  }
+}
