@@ -116,7 +116,7 @@ common:
   - type: Vocabulary
     url: vocabulary/watttime-vocabulary.yml
     title: WattTime Vocabulary
-  - type: JSON-LD
+  - type: JSONLD
     url: json-ld/watttime-context.jsonld
     title: WattTime JSON-LD Context
   - type: Features
