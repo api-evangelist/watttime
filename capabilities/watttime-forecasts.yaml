@@ -1,0 +1,169 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: WattTime API — Forecasts
+  description: 'WattTime API — Forecasts. 2 operations. Lead operation: WattTime Get Emissions Forecast. Self-contained Naftiko
+    capability covering one Watttime business surface.'
+  tags:
+  - Watttime
+  - Forecasts
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    WATTTIME_API_KEY: WATTTIME_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: watttime-forecasts
+    baseUri: https://api.watttime.org/v3
+    description: WattTime API — Forecasts business capability. Self-contained, no shared references.
+    resources:
+    - name: forecast
+      path: /forecast
+      operations:
+      - name: getforecast
+        method: GET
+        description: WattTime Get Emissions Forecast
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: region
+          in: query
+          type: string
+          description: Grid region identifier (e.g., CAISO_NORTH).
+          required: true
+        - name: signal_type
+          in: query
+          type: string
+          description: The emissions signal type to forecast.
+          required: true
+        - name: horizon_hours
+          in: query
+          type: integer
+          description: Number of hours ahead to forecast. Maximum varies by region. Default returns the full available forecast
+            window.
+        - name: model
+          in: query
+          type: string
+          description: Model version date to use. Defaults to the latest model.
+    - name: forecast-historical
+      path: /forecast/historical
+      operations:
+      - name: getforecasthistorical
+        method: GET
+        description: WattTime Get Historical Forecast Data
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: region
+          in: query
+          type: string
+          description: Grid region identifier (e.g., CAISO_NORTH).
+          required: true
+        - name: signal_type
+          in: query
+          type: string
+          description: The emissions signal type.
+          required: true
+        - name: start
+          in: query
+          type: string
+          description: Start of the historical forecast window (ISO 8601 UTC).
+          required: true
+        - name: end
+          in: query
+          type: string
+          description: End of the historical forecast window (ISO 8601 UTC).
+          required: true
+        - name: model
+          in: query
+          type: string
+          description: Model version date.
+    authentication:
+      type: bearer
+      token: '{{env.WATTTIME_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: watttime-forecasts-rest
+    port: 8080
+    description: REST adapter for WattTime API — Forecasts. One Spectral-compliant resource per consumed operation, prefixed
+      with /v1.
+    resources:
+    - path: /v1/forecast
+      name: forecast
+      description: REST surface for forecast.
+      operations:
+      - method: GET
+        name: getforecast
+        description: WattTime Get Emissions Forecast
+        call: watttime-forecasts.getforecast
+        with:
+          region: rest.region
+          signal_type: rest.signal_type
+          horizon_hours: rest.horizon_hours
+          model: rest.model
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/forecast/historical
+      name: forecast-historical
+      description: REST surface for forecast-historical.
+      operations:
+      - method: GET
+        name: getforecasthistorical
+        description: WattTime Get Historical Forecast Data
+        call: watttime-forecasts.getforecasthistorical
+        with:
+          region: rest.region
+          signal_type: rest.signal_type
+          start: rest.start
+          end: rest.end
+          model: rest.model
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: watttime-forecasts-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for WattTime API — Forecasts. One tool per consumed operation, routed inline through this capability's
+      consumes block.
+    tools:
+    - name: watttime-get-emissions-forecast
+      description: WattTime Get Emissions Forecast
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: watttime-forecasts.getforecast
+      with:
+        region: tools.region
+        signal_type: tools.signal_type
+        horizon_hours: tools.horizon_hours
+        model: tools.model
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: watttime-get-historical-forecast-data
+      description: WattTime Get Historical Forecast Data
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: watttime-forecasts.getforecasthistorical
+      with:
+        region: tools.region
+        signal_type: tools.signal_type
+        start: tools.start
+        end: tools.end
+        model: tools.model
+      outputParameters:
+      - type: object
+        mapping: $.

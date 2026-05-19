@@ -1,0 +1,79 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: WattTime API — Account
+  description: 'WattTime API — Account. 1 operations. Lead operation: WattTime Get My Access Information. Self-contained Naftiko
+    capability covering one Watttime business surface.'
+  tags:
+  - Watttime
+  - Account
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    WATTTIME_API_KEY: WATTTIME_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: watttime-account
+    baseUri: https://api.watttime.org/v3
+    description: WattTime API — Account business capability. Self-contained, no shared references.
+    resources:
+    - name: my-access
+      path: /my-access
+      operations:
+      - name: getmyaccess
+        method: GET
+        description: WattTime Get My Access Information
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: signal_type
+          in: query
+          type: string
+          description: Filter results by signal type. Valid values include co2_moer, co2_aoer, health_damage.
+    authentication:
+      type: bearer
+      token: '{{env.WATTTIME_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: watttime-account-rest
+    port: 8080
+    description: REST adapter for WattTime API — Account. One Spectral-compliant resource per consumed operation, prefixed
+      with /v1.
+    resources:
+    - path: /v1/my-access
+      name: my-access
+      description: REST surface for my-access.
+      operations:
+      - method: GET
+        name: getmyaccess
+        description: WattTime Get My Access Information
+        call: watttime-account.getmyaccess
+        with:
+          signal_type: rest.signal_type
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: watttime-account-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for WattTime API — Account. One tool per consumed operation, routed inline through this capability's
+      consumes block.
+    tools:
+    - name: watttime-get-my-access-information
+      description: WattTime Get My Access Information
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: watttime-account.getmyaccess
+      with:
+        signal_type: tools.signal_type
+      outputParameters:
+      - type: object
+        mapping: $.
