@@ -1,0 +1,344 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "WattTime API",
+    "version": "3.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Authentication",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "WattTime Register New Account",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.watttime.org/v3/register",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create a new WattTime API account. Registration requires a username, password, email, and organization. After registration, use the login endpoint to obtain an access token."
+        },
+        {
+          "info": {
+            "name": "WattTime Login and Obtain Access Token",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.watttime.org/v3/login",
+            "auth": {
+              "type": "basic",
+              "username": "{{username}}",
+              "password": "{{password}}"
+            }
+          },
+          "docs": "Authenticate using HTTP Basic Auth (username and password) to obtain a JWT bearer token. The token expires after 30 minutes and must be included as an Authorization Bearer header on all subsequent API calls. If a data call returns HTTP 401, re-authenticate to get a new token."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Account",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "WattTime Get My Access Information",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.watttime.org/v3/my-access",
+            "params": [
+              {
+                "name": "signal_type",
+                "value": "co2_moer",
+                "type": "query",
+                "description": "Filter results by signal type. Valid values include co2_moer, co2_aoer, health_damage."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Returns the list of grid regions and signal types accessible to the authenticated account, along with model metadata including available model versions by region and signal. Useful for determining which regions and signals are available under the current subscription plan."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Grid Regions",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "WattTime Get Grid Region from Location",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.watttime.org/v3/region-from-loc",
+            "params": [
+              {
+                "name": "latitude",
+                "value": "37.7749",
+                "type": "query",
+                "description": "Latitude of the location in decimal degrees."
+              },
+              {
+                "name": "longitude",
+                "value": "-122.4194",
+                "type": "query",
+                "description": "Longitude of the location in decimal degrees."
+              },
+              {
+                "name": "signal_type",
+                "value": "co2_moer",
+                "type": "query",
+                "description": "Signal type to check region availability for. Defaults to co2_moer."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Identify the electric grid balancing authority or region for a given set of geographic coordinates (latitude and longitude). Returns the region identifier used in subsequent data requests."
+        },
+        {
+          "info": {
+            "name": "WattTime Get Grid Region Boundary Maps",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.watttime.org/v3/maps",
+            "params": [
+              {
+                "name": "signal_type",
+                "value": "co2_moer",
+                "type": "query",
+                "description": "Filter maps by signal type availability."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Retrieve GeoJSON files showing the geographic boundaries of electric grid balancing authorities and grid regions accessible to the authenticated account. Useful for visualizing grid coverage areas on maps and verifying region boundaries."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Emissions Data",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "WattTime Get Historical Emissions Data",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.watttime.org/v3/data",
+            "params": [
+              {
+                "name": "region",
+                "value": "CAISO_NORTH",
+                "type": "query",
+                "description": "Grid region identifier (e.g., CAISO_NORTH). Obtain from /region-from-loc or /my-access."
+              },
+              {
+                "name": "signal_type",
+                "value": "co2_moer",
+                "type": "query",
+                "description": "The emissions signal type to retrieve. Valid values: co2_moer, co2_aoer, health_damage."
+              },
+              {
+                "name": "start",
+                "value": "2026-04-01T00:00:00Z",
+                "type": "query",
+                "description": "Start of the time window in ISO 8601 format (UTC). Maximum window is 32 days."
+              },
+              {
+                "name": "end",
+                "value": "2026-04-02T00:00:00Z",
+                "type": "query",
+                "description": "End of the time window in ISO 8601 format (UTC)."
+              },
+              {
+                "name": "model",
+                "value": "2026-03-01",
+                "type": "query",
+                "description": "Model version date to use (e.g., 2026-03-01). Defaults to the latest available model for the region."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Retrieve historical emissions data for a specified grid region and signal type within a time window. The maximum query window is 32 days. For longer historical datasets, use the /historical endpoint to download CSV files. Available to ANALYST and PRO subscribers; preview available for CAISO_NORTH."
+        },
+        {
+          "info": {
+            "name": "WattTime Download Historical Emissions CSV",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.watttime.org/v3/historical",
+            "params": [
+              {
+                "name": "region",
+                "value": "CAISO_NORTH",
+                "type": "query",
+                "description": "Grid region identifier (e.g., CAISO_NORTH)."
+              },
+              {
+                "name": "signal_type",
+                "value": "co2_moer",
+                "type": "query",
+                "description": "The emissions signal type."
+              },
+              {
+                "name": "start",
+                "value": "2023-01-01",
+                "type": "query",
+                "description": "Start date for historical data download (YYYY-MM-DD)."
+              },
+              {
+                "name": "end",
+                "value": "2024-01-01",
+                "type": "query",
+                "description": "End date for historical data download (YYYY-MM-DD)."
+              },
+              {
+                "name": "model",
+                "value": "2026-03-01",
+                "type": "query",
+                "description": "Model version date."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Download multi-year historical emissions data as compressed CSV files. Returns a URL to download the CSV file for the specified grid region, signal type, and date range. Available to ANALYST and PRO subscribers."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Forecasts",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "WattTime Get Emissions Forecast",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.watttime.org/v3/forecast",
+            "params": [
+              {
+                "name": "region",
+                "value": "CAISO_NORTH",
+                "type": "query",
+                "description": "Grid region identifier (e.g., CAISO_NORTH)."
+              },
+              {
+                "name": "signal_type",
+                "value": "co2_moer",
+                "type": "query",
+                "description": "The emissions signal type to forecast."
+              },
+              {
+                "name": "horizon_hours",
+                "value": "24",
+                "type": "query",
+                "description": "Number of hours ahead to forecast. Maximum varies by region. Default returns the full available forecast window."
+              },
+              {
+                "name": "model",
+                "value": "2026-03-01",
+                "type": "query",
+                "description": "Model version date to use. Defaults to the latest model."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Retrieve the current emissions forecast for a specified grid region and signal type. Real-time data is available within 5 minutes via this endpoint, covering a 24-72 hour forecast horizon. This is the primary endpoint for carbon-aware scheduling applications."
+        },
+        {
+          "info": {
+            "name": "WattTime Get Historical Forecast Data",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.watttime.org/v3/forecast/historical",
+            "params": [
+              {
+                "name": "region",
+                "value": "CAISO_NORTH",
+                "type": "query",
+                "description": "Grid region identifier (e.g., CAISO_NORTH)."
+              },
+              {
+                "name": "signal_type",
+                "value": "co2_moer",
+                "type": "query",
+                "description": "The emissions signal type."
+              },
+              {
+                "name": "start",
+                "value": "2026-04-01T00:00:00Z",
+                "type": "query",
+                "description": "Start of the historical forecast window (ISO 8601 UTC)."
+              },
+              {
+                "name": "end",
+                "value": "2026-04-02T00:00:00Z",
+                "type": "query",
+                "description": "End of the historical forecast window (ISO 8601 UTC)."
+              },
+              {
+                "name": "model",
+                "value": "2026-03-01",
+                "type": "query",
+                "description": "Model version date."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Retrieve previously generated forecast data for a specific historical time window. Useful for back-testing carbon-aware scheduling algorithms and analyzing forecast accuracy over time."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
