@@ -77,7 +77,7 @@ apis:
       - SDK
       - Client Library
     properties:
-      - type: SDK
+      - type: SDKs
         url: https://pypi.org/project/watttime/
         title: Python SDK (PyPI)
       - type: CodeExamples
