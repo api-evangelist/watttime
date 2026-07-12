@@ -84,6 +84,10 @@ apis:
         url: https://github.com/WattTime/watttime-python-client
         title: Python Client Examples
 common:
+  - type: DomainSecurity
+    url: security/watttime-domain-security.yml
+  - type: Authentication
+    url: authentication/watttime-authentication.yml
   - type: LinkedIn
     url: https://www.linkedin.com/company/watttime
   - type: Portal
@@ -177,6 +181,8 @@ common:
         description: >-
           Official Green Software Foundation Impact Framework plugin available for integrating WattTime data into
           software sustainability measurements.
+  - url: https://watttime.org/feed/
+    type: Blog
 maintainers:
   - FN: Kin Lane
     email: kin@apievangelist.com

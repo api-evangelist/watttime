@@ -1,0 +1,22 @@
+generated: '2026-07-11'
+method: derived
+source: openapi/watttime-openapi.yml
+summary:
+  types:
+  - http
+schemes:
+- name: basicAuth
+  type: http
+  scheme: basic
+  description: HTTP Basic Authentication used only for the /login endpoint. Provide username
+    and password to obtain a bearer token.
+  sources:
+  - openapi/watttime-openapi.yml
+- name: bearerAuth
+  type: http
+  scheme: bearer
+  bearerFormat: JWT
+  description: 'JWT bearer token obtained from the /login endpoint. Token expires after 30 minutes.
+    Include as Authorization: Bearer {token} header.'
+  sources:
+  - openapi/watttime-openapi.yml
