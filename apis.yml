@@ -84,6 +84,8 @@ apis:
         url: https://github.com/WattTime/watttime-python-client
         title: Python Client Examples
 common:
+  - type: AgenticAccess
+    url: agentic-access/watttime-agentic-access.yml
   - type: DomainSecurity
     url: security/watttime-domain-security.yml
   - type: Authentication
