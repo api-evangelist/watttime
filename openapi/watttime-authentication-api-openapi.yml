@@ -1,0 +1,168 @@
+openapi: 3.1.0
+info:
+  title: WattTime Account Authentication API
+  description: The WattTime Data API v3 provides access to real-time, forecast, and historical marginal emissions data for electric grids worldwide. Key signals include CO2 MOER (Marginal Operating Emissions Rate), health damage estimates, and CO2 AOER (Average Operating Emissions Rate). Coverage spans 342 grid regions in 210 countries and territories, with real-time data updated every five minutes. Authentication uses JWT bearer tokens obtained via the login endpoint using HTTP Basic Auth.
+  version: '3.0'
+  contact:
+    name: WattTime Support
+    email: support@watttime.org
+    url: https://watttime.org/
+  license:
+    name: Proprietary
+    url: https://watttime.org/data-plans/
+  x-generated-from: documentation
+servers:
+- url: https://api.watttime.org/v3
+  description: WattTime API v3 Production
+- url: https://api2.watttime.org/v2
+  description: WattTime API v2 Legacy
+tags:
+- name: Authentication
+  description: Register for an account and obtain access tokens.
+paths:
+  /register:
+    post:
+      operationId: register
+      summary: WattTime Register New Account
+      description: Create a new WattTime API account. Registration requires a username, password, email, and organization. After registration, use the login endpoint to obtain an access token.
+      tags:
+      - Authentication
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RegisterRequest'
+            examples:
+              RegisterRequestExample:
+                summary: Default register request
+                x-microcks-default: true
+                value:
+                  username: johndoe
+                  password: securepassword123
+                  email: johndoe@example.com
+                  org: Example Organization
+      responses:
+        '201':
+          description: Account created successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RegisterResponse'
+              examples:
+                Register201Example:
+                  summary: Default register 201 response
+                  x-microcks-default: true
+                  value:
+                    user: johndoe
+                    ok: User created
+        '400':
+          description: Bad request - missing or invalid fields.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /login:
+    get:
+      operationId: login
+      summary: WattTime Login and Obtain Access Token
+      description: Authenticate using HTTP Basic Auth (username and password) to obtain a JWT bearer token. The token expires after 30 minutes and must be included as an Authorization Bearer header on all subsequent API calls. If a data call returns HTTP 401, re-authenticate to get a new token.
+      tags:
+      - Authentication
+      security:
+      - basicAuth: []
+      responses:
+        '200':
+          description: Authentication successful. Returns a JWT token.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LoginResponse'
+              examples:
+                Login200Example:
+                  summary: Default login 200 response
+                  x-microcks-default: true
+                  value:
+                    token: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.example
+        '401':
+          description: Invalid credentials.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+components:
+  schemas:
+    LoginResponse:
+      type: object
+      properties:
+        token:
+          type: string
+          description: JWT bearer token for subsequent API requests. Expires after 30 minutes.
+          example: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.example
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: string
+          description: Error type or code.
+          example: unauthorized
+        message:
+          type: string
+          description: Human-readable error message.
+          example: Invalid or expired token. Please re-authenticate.
+        detail:
+          type: string
+          description: Additional error detail.
+          example: Token has expired. Please call /login to get a new token.
+    RegisterResponse:
+      type: object
+      properties:
+        user:
+          type: string
+          description: Created username.
+          example: johndoe
+        ok:
+          type: string
+          description: Success message.
+          example: User created
+    RegisterRequest:
+      type: object
+      required:
+      - username
+      - password
+      - email
+      - org
+      properties:
+        username:
+          type: string
+          description: Desired username for the new account.
+          example: johndoe
+        password:
+          type: string
+          description: Password for the new account.
+          example: securepassword123
+        email:
+          type: string
+          format: email
+          description: Email address for the new account.
+          example: johndoe@example.com
+        org:
+          type: string
+          description: Organization or company name.
+          example: Example Organization
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
+      description: HTTP Basic Authentication used only for the /login endpoint. Provide username and password to obtain a bearer token.
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: 'JWT bearer token obtained from the /login endpoint. Token expires after 30 minutes. Include as Authorization: Bearer {token} header.'

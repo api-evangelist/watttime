@@ -1,0 +1,283 @@
+openapi: 3.1.0
+info:
+  title: WattTime Account Forecasts API
+  description: The WattTime Data API v3 provides access to real-time, forecast, and historical marginal emissions data for electric grids worldwide. Key signals include CO2 MOER (Marginal Operating Emissions Rate), health damage estimates, and CO2 AOER (Average Operating Emissions Rate). Coverage spans 342 grid regions in 210 countries and territories, with real-time data updated every five minutes. Authentication uses JWT bearer tokens obtained via the login endpoint using HTTP Basic Auth.
+  version: '3.0'
+  contact:
+    name: WattTime Support
+    email: support@watttime.org
+    url: https://watttime.org/
+  license:
+    name: Proprietary
+    url: https://watttime.org/data-plans/
+  x-generated-from: documentation
+servers:
+- url: https://api.watttime.org/v3
+  description: WattTime API v3 Production
+- url: https://api2.watttime.org/v2
+  description: WattTime API v2 Legacy
+tags:
+- name: Forecasts
+  description: Retrieve emissions forecasts and historical forecast data.
+paths:
+  /forecast:
+    get:
+      operationId: getForecast
+      summary: WattTime Get Emissions Forecast
+      description: Retrieve the current emissions forecast for a specified grid region and signal type. Real-time data is available within 5 minutes via this endpoint, covering a 24-72 hour forecast horizon. This is the primary endpoint for carbon-aware scheduling applications.
+      tags:
+      - Forecasts
+      security:
+      - bearerAuth: []
+      parameters:
+      - name: region
+        in: query
+        required: true
+        description: Grid region identifier (e.g., CAISO_NORTH).
+        schema:
+          type: string
+        example: CAISO_NORTH
+      - name: signal_type
+        in: query
+        required: true
+        description: The emissions signal type to forecast.
+        schema:
+          type: string
+          enum:
+          - co2_moer
+          - co2_aoer
+          - health_damage
+        example: co2_moer
+      - name: horizon_hours
+        in: query
+        required: false
+        description: Number of hours ahead to forecast. Maximum varies by region. Default returns the full available forecast window.
+        schema:
+          type: integer
+          minimum: 1
+          maximum: 72
+        example: 24
+      - name: model
+        in: query
+        required: false
+        description: Model version date to use. Defaults to the latest model.
+        schema:
+          type: string
+        example: '2026-03-01'
+      responses:
+        '200':
+          description: Forecast emissions data for the requested region and signal.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ForecastResponse'
+              examples:
+                GetForecast200Example:
+                  summary: Default getForecast 200 response
+                  x-microcks-default: true
+                  value:
+                    meta:
+                      region: CAISO_NORTH
+                      signal_type: co2_moer
+                      model:
+                        date: '2026-03-01'
+                      units: lbs_co2_per_mwh
+                      generated_at: '2026-05-03T10:00:00+00:00'
+                    data:
+                    - point_time: '2026-05-03T10:05:00+00:00'
+                      value: 387.2
+                      version: '2026-03-01'
+                    - point_time: '2026-05-03T10:10:00+00:00'
+                      value: 391.4
+                      version: '2026-03-01'
+        '400':
+          description: Bad request - invalid parameters.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Unauthorized.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Forbidden - subscription plan does not include this region.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /forecast/historical:
+    get:
+      operationId: getForecastHistorical
+      summary: WattTime Get Historical Forecast Data
+      description: Retrieve previously generated forecast data for a specific historical time window. Useful for back-testing carbon-aware scheduling algorithms and analyzing forecast accuracy over time.
+      tags:
+      - Forecasts
+      security:
+      - bearerAuth: []
+      parameters:
+      - name: region
+        in: query
+        required: true
+        description: Grid region identifier (e.g., CAISO_NORTH).
+        schema:
+          type: string
+        example: CAISO_NORTH
+      - name: signal_type
+        in: query
+        required: true
+        description: The emissions signal type.
+        schema:
+          type: string
+          enum:
+          - co2_moer
+          - co2_aoer
+          - health_damage
+        example: co2_moer
+      - name: start
+        in: query
+        required: true
+        description: Start of the historical forecast window (ISO 8601 UTC).
+        schema:
+          type: string
+          format: date-time
+        example: '2026-04-01T00:00:00Z'
+      - name: end
+        in: query
+        required: true
+        description: End of the historical forecast window (ISO 8601 UTC).
+        schema:
+          type: string
+          format: date-time
+        example: '2026-04-02T00:00:00Z'
+      - name: model
+        in: query
+        required: false
+        description: Model version date.
+        schema:
+          type: string
+        example: '2026-03-01'
+      responses:
+        '200':
+          description: Historical forecast data for the specified window.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ForecastResponse'
+              examples:
+                GetForecastHistorical200Example:
+                  summary: Default getForecastHistorical 200 response
+                  x-microcks-default: true
+                  value:
+                    meta:
+                      region: CAISO_NORTH
+                      signal_type: co2_moer
+                      model:
+                        date: '2026-03-01'
+                      units: lbs_co2_per_mwh
+                      generated_at: '2026-04-01T00:00:00+00:00'
+                    data:
+                    - point_time: '2026-04-01T00:05:00+00:00'
+                      value: 405.1
+                      version: '2026-03-01'
+        '400':
+          description: Bad request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Unauthorized.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+components:
+  schemas:
+    ForecastMeta:
+      type: object
+      properties:
+        region:
+          type: string
+          description: Grid region identifier.
+          example: CAISO_NORTH
+        signal_type:
+          type: string
+          description: Signal type of the forecast.
+          example: co2_moer
+        model:
+          type: object
+          properties:
+            date:
+              type: string
+              description: Model version date.
+              example: '2026-03-01'
+        units:
+          type: string
+          description: Units for the forecast values.
+          example: lbs_co2_per_mwh
+        generated_at:
+          type: string
+          format: date-time
+          description: Timestamp when the forecast was generated.
+          example: '2026-05-03T10:00:00+00:00'
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: string
+          description: Error type or code.
+          example: unauthorized
+        message:
+          type: string
+          description: Human-readable error message.
+          example: Invalid or expired token. Please re-authenticate.
+        detail:
+          type: string
+          description: Additional error detail.
+          example: Token has expired. Please call /login to get a new token.
+    ForecastResponse:
+      type: object
+      properties:
+        meta:
+          $ref: '#/components/schemas/ForecastMeta'
+        data:
+          type: array
+          description: Array of forecast data points.
+          items:
+            $ref: '#/components/schemas/DataPoint'
+    DataPoint:
+      type: object
+      properties:
+        point_time:
+          type: string
+          format: date-time
+          description: Timestamp for the emissions data point (ISO 8601 UTC).
+          example: '2026-04-01T00:00:00+00:00'
+        value:
+          type: number
+          format: double
+          description: Emissions value in the units specified by the response meta.
+          example: 412.5
+        version:
+          type: string
+          description: Model version used for this data point.
+          example: '2026-03-01'
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
+      description: HTTP Basic Authentication used only for the /login endpoint. Provide username and password to obtain a bearer token.
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: 'JWT bearer token obtained from the /login endpoint. Token expires after 30 minutes. Include as Authorization: Bearer {token} header.'

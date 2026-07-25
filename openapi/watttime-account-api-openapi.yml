@@ -1,0 +1,144 @@
+openapi: 3.1.0
+info:
+  title: WattTime Account API
+  description: The WattTime Data API v3 provides access to real-time, forecast, and historical marginal emissions data for electric grids worldwide. Key signals include CO2 MOER (Marginal Operating Emissions Rate), health damage estimates, and CO2 AOER (Average Operating Emissions Rate). Coverage spans 342 grid regions in 210 countries and territories, with real-time data updated every five minutes. Authentication uses JWT bearer tokens obtained via the login endpoint using HTTP Basic Auth.
+  version: '3.0'
+  contact:
+    name: WattTime Support
+    email: support@watttime.org
+    url: https://watttime.org/
+  license:
+    name: Proprietary
+    url: https://watttime.org/data-plans/
+  x-generated-from: documentation
+servers:
+- url: https://api.watttime.org/v3
+  description: WattTime API v3 Production
+- url: https://api2.watttime.org/v2
+  description: WattTime API v2 Legacy
+tags:
+- name: Account
+  description: Account information and access management.
+paths:
+  /my-access:
+    get:
+      operationId: getMyAccess
+      summary: WattTime Get My Access Information
+      description: Returns the list of grid regions and signal types accessible to the authenticated account, along with model metadata including available model versions by region and signal. Useful for determining which regions and signals are available under the current subscription plan.
+      tags:
+      - Account
+      security:
+      - bearerAuth: []
+      parameters:
+      - name: signal_type
+        in: query
+        required: false
+        description: Filter results by signal type. Valid values include co2_moer, co2_aoer, health_damage.
+        schema:
+          type: string
+          enum:
+          - co2_moer
+          - co2_aoer
+          - health_damage
+        example: co2_moer
+      responses:
+        '200':
+          description: List of accessible grid regions and available model versions.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MyAccessResponse'
+              examples:
+                GetMyAccess200Example:
+                  summary: Default getMyAccess 200 response
+                  x-microcks-default: true
+                  value:
+                    signal_type: co2_moer
+                    regions:
+                    - region: CAISO_NORTH
+                      region_full_name: California ISO - North
+                      signal_type: co2_moer
+                      model:
+                        date: '2026-03-01'
+                      data_start: '2019-01-01T00:00:00Z'
+                      access: read
+        '401':
+          description: Unauthorized - invalid or expired token.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+components:
+  schemas:
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: string
+          description: Error type or code.
+          example: unauthorized
+        message:
+          type: string
+          description: Human-readable error message.
+          example: Invalid or expired token. Please re-authenticate.
+        detail:
+          type: string
+          description: Additional error detail.
+          example: Token has expired. Please call /login to get a new token.
+    MyAccessResponse:
+      type: object
+      properties:
+        signal_type:
+          type: string
+          description: The signal type filter applied to the response.
+          example: co2_moer
+        regions:
+          type: array
+          description: List of accessible grid regions with model metadata.
+          items:
+            $ref: '#/components/schemas/RegionAccess'
+    RegionAccess:
+      type: object
+      properties:
+        region:
+          type: string
+          description: Grid region identifier.
+          example: CAISO_NORTH
+        region_full_name:
+          type: string
+          description: Human-readable full name of the grid region.
+          example: California ISO - North
+        signal_type:
+          type: string
+          description: Signal type available for this region.
+          example: co2_moer
+        model:
+          type: object
+          description: Current model version metadata.
+          properties:
+            date:
+              type: string
+              description: Model version date.
+              example: '2026-03-01'
+        data_start:
+          type: string
+          format: date-time
+          description: Earliest available data point for this region.
+          example: '2019-01-01T00:00:00Z'
+        access:
+          type: string
+          description: Access level for this region.
+          example: read
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
+      description: HTTP Basic Authentication used only for the /login endpoint. Provide username and password to obtain a bearer token.
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: 'JWT bearer token obtained from the /login endpoint. Token expires after 30 minutes. Include as Authorization: Bearer {token} header.'

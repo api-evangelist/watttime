@@ -1,0 +1,215 @@
+openapi: 3.1.0
+info:
+  title: WattTime Account Grid Regions API
+  description: The WattTime Data API v3 provides access to real-time, forecast, and historical marginal emissions data for electric grids worldwide. Key signals include CO2 MOER (Marginal Operating Emissions Rate), health damage estimates, and CO2 AOER (Average Operating Emissions Rate). Coverage spans 342 grid regions in 210 countries and territories, with real-time data updated every five minutes. Authentication uses JWT bearer tokens obtained via the login endpoint using HTTP Basic Auth.
+  version: '3.0'
+  contact:
+    name: WattTime Support
+    email: support@watttime.org
+    url: https://watttime.org/
+  license:
+    name: Proprietary
+    url: https://watttime.org/data-plans/
+  x-generated-from: documentation
+servers:
+- url: https://api.watttime.org/v3
+  description: WattTime API v3 Production
+- url: https://api2.watttime.org/v2
+  description: WattTime API v2 Legacy
+tags:
+- name: Grid Regions
+  description: Discover and query grid balancing authorities and regions.
+paths:
+  /region-from-loc:
+    get:
+      operationId: getRegionFromLocation
+      summary: WattTime Get Grid Region from Location
+      description: Identify the electric grid balancing authority or region for a given set of geographic coordinates (latitude and longitude). Returns the region identifier used in subsequent data requests.
+      tags:
+      - Grid Regions
+      security:
+      - bearerAuth: []
+      parameters:
+      - name: latitude
+        in: query
+        required: true
+        description: Latitude of the location in decimal degrees.
+        schema:
+          type: number
+          format: float
+          minimum: -90
+          maximum: 90
+        example: 37.7749
+      - name: longitude
+        in: query
+        required: true
+        description: Longitude of the location in decimal degrees.
+        schema:
+          type: number
+          format: float
+          minimum: -180
+          maximum: 180
+        example: -122.4194
+      - name: signal_type
+        in: query
+        required: false
+        description: Signal type to check region availability for. Defaults to co2_moer.
+        schema:
+          type: string
+          enum:
+          - co2_moer
+          - co2_aoer
+          - health_damage
+        example: co2_moer
+      responses:
+        '200':
+          description: Grid region information for the specified coordinates.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RegionResponse'
+              examples:
+                GetRegionFromLocation200Example:
+                  summary: Default getRegionFromLocation 200 response
+                  x-microcks-default: true
+                  value:
+                    region: CAISO_NORTH
+                    region_full_name: California ISO - North
+                    signal_type: co2_moer
+        '400':
+          description: Bad request - invalid or missing coordinates.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Unauthorized.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: No grid region found for the specified coordinates.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /maps:
+    get:
+      operationId: getGridMaps
+      summary: WattTime Get Grid Region Boundary Maps
+      description: Retrieve GeoJSON files showing the geographic boundaries of electric grid balancing authorities and grid regions accessible to the authenticated account. Useful for visualizing grid coverage areas on maps and verifying region boundaries.
+      tags:
+      - Grid Regions
+      security:
+      - bearerAuth: []
+      parameters:
+      - name: signal_type
+        in: query
+        required: false
+        description: Filter maps by signal type availability.
+        schema:
+          type: string
+          enum:
+          - co2_moer
+          - co2_aoer
+          - health_damage
+        example: co2_moer
+      responses:
+        '200':
+          description: GeoJSON representation of grid region boundaries.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GridMapsResponse'
+              examples:
+                GetGridMaps200Example:
+                  summary: Default getGridMaps 200 response
+                  x-microcks-default: true
+                  value:
+                    type: FeatureCollection
+                    features:
+                    - type: Feature
+                      geometry:
+                        type: Polygon
+                        coordinates:
+                        - - - -122.5
+                            - 37.2
+                          - - -120.5
+                            - 37.2
+                          - - -120.5
+                            - 38.5
+                          - - -122.5
+                            - 38.5
+                          - - -122.5
+                            - 37.2
+                      properties:
+                        region: CAISO_NORTH
+                        region_full_name: California ISO - North
+        '401':
+          description: Unauthorized.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+components:
+  schemas:
+    RegionResponse:
+      type: object
+      properties:
+        region:
+          type: string
+          description: Grid region identifier for the specified coordinates.
+          example: CAISO_NORTH
+        region_full_name:
+          type: string
+          description: Human-readable full name of the grid region.
+          example: California ISO - North
+        signal_type:
+          type: string
+          description: Signal type for which the region was resolved.
+          example: co2_moer
+    GridMapsResponse:
+      type: object
+      description: GeoJSON FeatureCollection of grid region boundaries.
+      properties:
+        type:
+          type: string
+          description: GeoJSON type.
+          example: FeatureCollection
+        features:
+          type: array
+          description: Array of GeoJSON features representing grid regions.
+          items:
+            type: object
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: string
+          description: Error type or code.
+          example: unauthorized
+        message:
+          type: string
+          description: Human-readable error message.
+          example: Invalid or expired token. Please re-authenticate.
+        detail:
+          type: string
+          description: Additional error detail.
+          example: Token has expired. Please call /login to get a new token.
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
+      description: HTTP Basic Authentication used only for the /login endpoint. Provide username and password to obtain a bearer token.
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: 'JWT bearer token obtained from the /login endpoint. Token expires after 30 minutes. Include as Authorization: Bearer {token} header.'
