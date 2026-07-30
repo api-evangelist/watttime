@@ -8,9 +8,22 @@ description: >-
   low-carbon windows, measure actual emissions reductions from clean energy procurement, and meet sustainability
   reporting requirements.
 type: Index
+accessModel:
+  pricing: freemium
+  onboarding: self-serve
+  trial: false
+  try_now: true
+  public: false
+  label: Freemium · Self-serve signup
+  confidence: high
+  source:
+  - plans
+  - authentication
+  generated: '2026-07-22'
+  method: derived
 position: Consumer
 access: 3rd-Party
-image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/watttime.png
 url: https://raw.githubusercontent.com/api-evangelist/watttime/refs/heads/main/apis.yml
 tags:
   - Emissions
@@ -24,66 +37,157 @@ created: '2025-05-02'
 modified: '2026-05-19'
 specificationVersion: '0.19'
 apis:
-  - aid: watttime:watttime
-    name: WattTime API
-    description: >-
-      The WattTime Data API v3 provides access to real-time, forecast, and historical marginal emissions data for
-      electric grids worldwide. Key signals include CO2 MOER (Marginal Operating Emissions Rate), health damage
-      estimates, and CO2 AOER (Average Operating Emissions Rate). The API covers 342 grid regions in 210 countries and
-      territories, with real-time data updated every five minutes via the forecast endpoint.
-    humanURL: https://docs.watttime.org/
-    baseURL: https://api.watttime.org/v3
-    tags:
-      - Emissions
-      - Carbon
-      - Electricity Grid
-      - Marginal Emissions
-      - Forecasting
-      - Climate
-    properties:
-      - type: Documentation
-        url: https://docs.watttime.org/
-      - type: Documentation
-        url: https://legacy-docs.watttime.org/
-        title: Legacy API v2 Documentation
-      - type: OpenAPI
-        url: openapi/watttime-openapi.yml
-      - type: JSONSchema
-        url: json-schema/watttime-data-point-schema.json
-        title: Data Point Schema
-      - type: JSONSchema
-        url: json-schema/watttime-data-response-schema.json
-        title: Data Response Schema
-      - type: JSONSchema
-        url: json-schema/watttime-forecast-response-schema.json
-        title: Forecast Response Schema
-      - type: JSONSchema
-        url: json-schema/watttime-region-response-schema.json
-        title: Region Response Schema
-      - type: JSONStructure
-        url: json-structure/watttime-data-point-structure.json
-        title: Data Point Structure
-      - type: JSONStructure
-        url: json-structure/watttime-data-response-structure.json
-        title: Data Response Structure
-  - aid: watttime:watttime-python-client
-    name: WattTime Python Client
-    description: >-
-      Official Python SDK for the WattTime API providing simplified access to real-time, forecast, and historical
-      emissions data.
-    humanURL: https://github.com/WattTime/watttime-python-client
-    tags:
-      - Python
-      - SDK
-      - Client Library
-    properties:
-      - type: SDKs
-        url: https://pypi.org/project/watttime/
-        title: Python SDK (PyPI)
-      - type: CodeExamples
-        url: https://github.com/WattTime/watttime-python-client
-        title: Python Client Examples
+- aid: watttime:watttime-python-client
+  name: WattTime Python Client
+  description: >-
+    Official Python SDK for the WattTime API providing simplified access to real-time, forecast, and historical
+    emissions data.
+  humanURL: https://github.com/WattTime/watttime-python-client
+  tags:
+  - Python
+  - SDK
+  - Client Library
+  properties:
+  - type: SDKs
+    url: https://pypi.org/project/watttime/
+    title: Python SDK (PyPI)
+  - type: CodeExamples
+    url: https://github.com/WattTime/watttime-python-client
+    title: Python Client Examples
+- aid: watttime:watttime-account-api
+  name: WattTime Account API
+  description: Account information and access management.
+  humanURL: https://docs.watttime.org/
+  baseURL: https://api.watttime.org/v3
+  tags:
+  - Account
+  properties:
+  - type: OpenAPI
+    url: openapi/watttime-account-api-openapi.yml
+  - type: Documentation
+    url: https://docs.watttime.org/
+  - type: Documentation
+    url: https://legacy-docs.watttime.org/
+  - type: JSONSchema
+    url: json-schema/watttime-data-point-schema.json
+  - type: JSONSchema
+    url: json-schema/watttime-data-response-schema.json
+  - type: JSONSchema
+    url: json-schema/watttime-forecast-response-schema.json
+  - type: JSONSchema
+    url: json-schema/watttime-region-response-schema.json
+  - type: JSONStructure
+    url: json-structure/watttime-data-point-structure.json
+  - type: JSONStructure
+    url: json-structure/watttime-data-response-structure.json
+- aid: watttime:watttime-authentication-api
+  name: WattTime Authentication API
+  description: Register for an account and obtain access tokens.
+  humanURL: https://docs.watttime.org/
+  baseURL: https://api.watttime.org/v3
+  tags:
+  - Authentication
+  properties:
+  - type: OpenAPI
+    url: openapi/watttime-authentication-api-openapi.yml
+  - type: Documentation
+    url: https://docs.watttime.org/
+  - type: Documentation
+    url: https://legacy-docs.watttime.org/
+  - type: JSONSchema
+    url: json-schema/watttime-data-point-schema.json
+  - type: JSONSchema
+    url: json-schema/watttime-data-response-schema.json
+  - type: JSONSchema
+    url: json-schema/watttime-forecast-response-schema.json
+  - type: JSONSchema
+    url: json-schema/watttime-region-response-schema.json
+  - type: JSONStructure
+    url: json-structure/watttime-data-point-structure.json
+  - type: JSONStructure
+    url: json-structure/watttime-data-response-structure.json
+- aid: watttime:watttime-emissions-data-api
+  name: WattTime Emissions Data API
+  description: >-
+    Access real-time, historical, and forecast marginal emissions signals for electric grids.
+  humanURL: https://docs.watttime.org/
+  baseURL: https://api.watttime.org/v3
+  tags:
+  - Emissions Data
+  properties:
+  - type: OpenAPI
+    url: openapi/watttime-emissions-data-api-openapi.yml
+  - type: Documentation
+    url: https://docs.watttime.org/
+  - type: Documentation
+    url: https://legacy-docs.watttime.org/
+  - type: JSONSchema
+    url: json-schema/watttime-data-point-schema.json
+  - type: JSONSchema
+    url: json-schema/watttime-data-response-schema.json
+  - type: JSONSchema
+    url: json-schema/watttime-forecast-response-schema.json
+  - type: JSONSchema
+    url: json-schema/watttime-region-response-schema.json
+  - type: JSONStructure
+    url: json-structure/watttime-data-point-structure.json
+  - type: JSONStructure
+    url: json-structure/watttime-data-response-structure.json
+- aid: watttime:watttime-forecasts-api
+  name: WattTime Forecasts API
+  description: Retrieve emissions forecasts and historical forecast data.
+  humanURL: https://docs.watttime.org/
+  baseURL: https://api.watttime.org/v3
+  tags:
+  - Forecasts
+  properties:
+  - type: OpenAPI
+    url: openapi/watttime-forecasts-api-openapi.yml
+  - type: Documentation
+    url: https://docs.watttime.org/
+  - type: Documentation
+    url: https://legacy-docs.watttime.org/
+  - type: JSONSchema
+    url: json-schema/watttime-data-point-schema.json
+  - type: JSONSchema
+    url: json-schema/watttime-data-response-schema.json
+  - type: JSONSchema
+    url: json-schema/watttime-forecast-response-schema.json
+  - type: JSONSchema
+    url: json-schema/watttime-region-response-schema.json
+  - type: JSONStructure
+    url: json-structure/watttime-data-point-structure.json
+  - type: JSONStructure
+    url: json-structure/watttime-data-response-structure.json
+- aid: watttime:watttime-grid-regions-api
+  name: WattTime Grid Regions API
+  description: Discover and query grid balancing authorities and regions.
+  humanURL: https://docs.watttime.org/
+  baseURL: https://api.watttime.org/v3
+  tags:
+  - Grid Regions
+  properties:
+  - type: OpenAPI
+    url: openapi/watttime-grid-regions-api-openapi.yml
+  - type: Documentation
+    url: https://docs.watttime.org/
+  - type: Documentation
+    url: https://legacy-docs.watttime.org/
+  - type: JSONSchema
+    url: json-schema/watttime-data-point-schema.json
+  - type: JSONSchema
+    url: json-schema/watttime-data-response-schema.json
+  - type: JSONSchema
+    url: json-schema/watttime-forecast-response-schema.json
+  - type: JSONSchema
+    url: json-schema/watttime-region-response-schema.json
+  - type: JSONStructure
+    url: json-structure/watttime-data-point-structure.json
+  - type: JSONStructure
+    url: json-structure/watttime-data-response-structure.json
 common:
+  - type: PostmanWorkspace
+    url: https://www.postman.com/kinlaneapi/watttime/overview
   - type: AgenticAccess
     url: agentic-access/watttime-agentic-access.yml
   - type: DomainSecurity
