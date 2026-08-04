@@ -1,0 +1,315 @@
+{
+  "info": {
+    "_postman_id": "b5d2c8d5-4eb5-4a1a-84bd-f455f22412a7",
+    "name": "WattTime Account Authentication API",
+    "description": "The WattTime Data API v3 provides access to real-time, forecast, and historical marginal emissions data for electric grids worldwide. Key signals include CO2 MOER (Marginal Operating Emissions Rate), health damage estimates, and CO2 AOER (Average Operating Emissions Rate). Coverage spans 342 grid regions in 210 countries and territories, with real-time data updated every five minutes. Authentication uses JWT bearer tokens obtained via the login endpoint using HTTP Basic Auth.\n\nContact Support:\n Name: WattTime Support\n Email: support@watttime.org",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "createdAt": "2026-07-28T03:29:00.000Z",
+    "updatedAt": "2026-07-28T03:29:00.000Z",
+    "lastUpdatedBy": "35240",
+    "uid": "35240-b5d2c8d5-4eb5-4a1a-84bd-f455f22412a7"
+  },
+  "item": [
+    {
+      "name": "register",
+      "item": [
+        {
+          "name": "WattTime Register New Account",
+          "id": "dae5d0e2-f80b-45ab-9d77-ce7266db8aa2",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"username\": \"<string>\",\n  \"password\": \"<string>\",\n  \"email\": \"<email>\",\n  \"org\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "headerFamily": "json",
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/register",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "register"
+              ]
+            },
+            "description": "Create a new WattTime API account. Registration requires a username, password, email, and organization. After registration, use the login endpoint to obtain an access token."
+          },
+          "response": [
+            {
+              "id": "d229b56e-4e92-4a94-b993-af1ccecca619",
+              "name": "Account created successfully.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"username\": \"<string>\",\n  \"password\": \"<string>\",\n  \"email\": \"<email>\",\n  \"org\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/register",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "register"
+                  ]
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"user\": \"<string>\",\n  \"ok\": \"<string>\"\n}",
+              "createdAt": "2026-07-28T03:29:00.000Z",
+              "updatedAt": "2026-07-28T03:29:00.000Z",
+              "uid": "35240-d229b56e-4e92-4a94-b993-af1ccecca619"
+            },
+            {
+              "id": "4c1aefb8-2db8-4c58-8f7d-b2b81317c377",
+              "name": "Bad request - missing or invalid fields.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"username\": \"<string>\",\n  \"password\": \"<string>\",\n  \"email\": \"<email>\",\n  \"org\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/register",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "register"
+                  ]
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"error\": \"<string>\",\n  \"message\": \"<string>\",\n  \"detail\": \"<string>\"\n}",
+              "createdAt": "2026-07-28T03:29:00.000Z",
+              "updatedAt": "2026-07-28T03:29:00.000Z",
+              "uid": "35240-4c1aefb8-2db8-4c58-8f7d-b2b81317c377"
+            }
+          ],
+          "createdAt": "2026-07-28T03:29:00.000Z",
+          "updatedAt": "2026-07-28T03:29:00.000Z",
+          "uid": "35240-dae5d0e2-f80b-45ab-9d77-ce7266db8aa2"
+        }
+      ],
+      "id": "a7c28bb1-5e76-4cda-babd-d5ecd2a57d2d",
+      "createdAt": "2026-07-28T03:29:00.000Z",
+      "updatedAt": "2026-07-28T03:29:00.000Z",
+      "uid": "35240-a7c28bb1-5e76-4cda-babd-d5ecd2a57d2d"
+    },
+    {
+      "name": "login",
+      "item": [
+        {
+          "name": "WattTime Login and Obtain Access Token",
+          "id": "d7ae5aa7-feb5-4c10-8d7e-f91cc9bc7046",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "username",
+                  "value": "{{basicAuthUsername}}",
+                  "type": "string"
+                },
+                {
+                  "key": "password",
+                  "value": "{{basicAuthPassword}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/login",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "login"
+              ]
+            },
+            "description": "Authenticate using HTTP Basic Auth (username and password) to obtain a JWT bearer token. The token expires after 30 minutes and must be included as an Authorization Bearer header on all subsequent API calls. If a data call returns HTTP 401, re-authenticate to get a new token."
+          },
+          "response": [
+            {
+              "id": "20ad1935-af85-46da-8fd5-43ff7f4de1fa",
+              "name": "Authentication successful. Returns a JWT token.",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: basic",
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/login",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "login"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"token\": \"<string>\"\n}",
+              "createdAt": "2026-07-28T03:29:00.000Z",
+              "updatedAt": "2026-07-28T03:29:00.000Z",
+              "uid": "35240-20ad1935-af85-46da-8fd5-43ff7f4de1fa"
+            },
+            {
+              "id": "4466c3aa-6799-4d52-897f-c1eb6c08d316",
+              "name": "Invalid credentials.",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: basic",
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/login",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "login"
+                  ]
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"error\": \"<string>\",\n  \"message\": \"<string>\",\n  \"detail\": \"<string>\"\n}",
+              "createdAt": "2026-07-28T03:29:00.000Z",
+              "updatedAt": "2026-07-28T03:29:00.000Z",
+              "uid": "35240-4466c3aa-6799-4d52-897f-c1eb6c08d316"
+            }
+          ],
+          "createdAt": "2026-07-28T03:29:00.000Z",
+          "updatedAt": "2026-07-28T03:29:00.000Z",
+          "uid": "35240-d7ae5aa7-feb5-4c10-8d7e-f91cc9bc7046"
+        }
+      ],
+      "id": "775d21d0-7ee3-4abe-a998-f3766eb14e5e",
+      "createdAt": "2026-07-28T03:29:00.000Z",
+      "updatedAt": "2026-07-28T03:29:00.000Z",
+      "uid": "35240-775d21d0-7ee3-4abe-a998-f3766eb14e5e"
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://api.watttime.org/v3"
+    }
+  ]
+}

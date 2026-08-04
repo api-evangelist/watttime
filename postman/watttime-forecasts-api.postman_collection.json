@@ -1,0 +1,636 @@
+{
+  "info": {
+    "_postman_id": "3d6b7be8-7dd3-4816-a175-d88674944d2c",
+    "name": "WattTime Account Forecasts API",
+    "description": "The WattTime Data API v3 provides access to real-time, forecast, and historical marginal emissions data for electric grids worldwide. Key signals include CO2 MOER (Marginal Operating Emissions Rate), health damage estimates, and CO2 AOER (Average Operating Emissions Rate). Coverage spans 342 grid regions in 210 countries and territories, with real-time data updated every five minutes. Authentication uses JWT bearer tokens obtained via the login endpoint using HTTP Basic Auth.\n\nContact Support:\n Name: WattTime Support\n Email: support@watttime.org",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "createdAt": "2026-07-28T03:29:02.000Z",
+    "updatedAt": "2026-07-28T03:29:02.000Z",
+    "lastUpdatedBy": "35240",
+    "uid": "35240-3d6b7be8-7dd3-4816-a175-d88674944d2c"
+  },
+  "item": [
+    {
+      "name": "forecast",
+      "item": [
+        {
+          "name": "historical",
+          "item": [
+            {
+              "name": "WattTime Get Historical Forecast Data",
+              "id": "8ea935ed-2a87-4e62-b138-e4be5a71e395",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{bearerToken}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/forecast/historical?region=<string>&signal_type=health_damage&start=<dateTime>&end=<dateTime>&model=<string>",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "forecast",
+                    "historical"
+                  ],
+                  "query": [
+                    {
+                      "description": "(Required) Grid region identifier (e.g., CAISO_NORTH).",
+                      "key": "region",
+                      "value": "<string>"
+                    },
+                    {
+                      "description": "(Required) The emissions signal type.",
+                      "key": "signal_type",
+                      "value": "health_damage"
+                    },
+                    {
+                      "description": "(Required) Start of the historical forecast window (ISO 8601 UTC).",
+                      "key": "start",
+                      "value": "<dateTime>"
+                    },
+                    {
+                      "description": "(Required) End of the historical forecast window (ISO 8601 UTC).",
+                      "key": "end",
+                      "value": "<dateTime>"
+                    },
+                    {
+                      "description": "Model version date.",
+                      "key": "model",
+                      "value": "<string>"
+                    }
+                  ]
+                },
+                "description": "Retrieve previously generated forecast data for a specific historical time window. Useful for back-testing carbon-aware scheduling algorithms and analyzing forecast accuracy over time."
+              },
+              "response": [
+                {
+                  "id": "54dd9fb4-3b6c-4acc-8688-6183e41a8d58",
+                  "name": "Historical forecast data for the specified window.",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: bearer",
+                        "key": "Authorization",
+                        "value": "Bearer <token>"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/forecast/historical?region=<string>&signal_type=health_damage&start=<dateTime>&end=<dateTime>&model=<string>",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "forecast",
+                        "historical"
+                      ],
+                      "query": [
+                        {
+                          "description": "(Required) Grid region identifier (e.g., CAISO_NORTH).",
+                          "key": "region",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "(Required) The emissions signal type.",
+                          "key": "signal_type",
+                          "value": "health_damage"
+                        },
+                        {
+                          "description": "(Required) Start of the historical forecast window (ISO 8601 UTC).",
+                          "key": "start",
+                          "value": "<dateTime>"
+                        },
+                        {
+                          "description": "(Required) End of the historical forecast window (ISO 8601 UTC).",
+                          "key": "end",
+                          "value": "<dateTime>"
+                        },
+                        {
+                          "description": "Model version date.",
+                          "key": "model",
+                          "value": "<string>"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"meta\": {\n    \"region\": \"<string>\",\n    \"signal_type\": \"<string>\",\n    \"model\": {\n      \"date\": \"<string>\"\n    },\n    \"units\": \"<string>\",\n    \"generated_at\": \"<dateTime>\"\n  },\n  \"data\": [\n    {\n      \"point_time\": \"<dateTime>\",\n      \"value\": \"<double>\",\n      \"version\": \"<string>\"\n    },\n    {\n      \"point_time\": \"<dateTime>\",\n      \"value\": \"<double>\",\n      \"version\": \"<string>\"\n    }\n  ]\n}",
+                  "createdAt": "2026-07-28T03:29:03.000Z",
+                  "updatedAt": "2026-07-28T03:29:03.000Z",
+                  "uid": "35240-54dd9fb4-3b6c-4acc-8688-6183e41a8d58"
+                },
+                {
+                  "id": "1e638f5e-4d64-42fc-88e8-75c223122d8a",
+                  "name": "Bad request.",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: bearer",
+                        "key": "Authorization",
+                        "value": "Bearer <token>"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/forecast/historical?region=<string>&signal_type=health_damage&start=<dateTime>&end=<dateTime>&model=<string>",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "forecast",
+                        "historical"
+                      ],
+                      "query": [
+                        {
+                          "description": "(Required) Grid region identifier (e.g., CAISO_NORTH).",
+                          "key": "region",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "(Required) The emissions signal type.",
+                          "key": "signal_type",
+                          "value": "health_damage"
+                        },
+                        {
+                          "description": "(Required) Start of the historical forecast window (ISO 8601 UTC).",
+                          "key": "start",
+                          "value": "<dateTime>"
+                        },
+                        {
+                          "description": "(Required) End of the historical forecast window (ISO 8601 UTC).",
+                          "key": "end",
+                          "value": "<dateTime>"
+                        },
+                        {
+                          "description": "Model version date.",
+                          "key": "model",
+                          "value": "<string>"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "Bad Request",
+                  "code": 400,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"error\": \"<string>\",\n  \"message\": \"<string>\",\n  \"detail\": \"<string>\"\n}",
+                  "createdAt": "2026-07-28T03:29:03.000Z",
+                  "updatedAt": "2026-07-28T03:29:03.000Z",
+                  "uid": "35240-1e638f5e-4d64-42fc-88e8-75c223122d8a"
+                },
+                {
+                  "id": "66ec7128-c501-44b7-9046-acebea391354",
+                  "name": "Unauthorized.",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: bearer",
+                        "key": "Authorization",
+                        "value": "Bearer <token>"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/forecast/historical?region=<string>&signal_type=health_damage&start=<dateTime>&end=<dateTime>&model=<string>",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "forecast",
+                        "historical"
+                      ],
+                      "query": [
+                        {
+                          "description": "(Required) Grid region identifier (e.g., CAISO_NORTH).",
+                          "key": "region",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "(Required) The emissions signal type.",
+                          "key": "signal_type",
+                          "value": "health_damage"
+                        },
+                        {
+                          "description": "(Required) Start of the historical forecast window (ISO 8601 UTC).",
+                          "key": "start",
+                          "value": "<dateTime>"
+                        },
+                        {
+                          "description": "(Required) End of the historical forecast window (ISO 8601 UTC).",
+                          "key": "end",
+                          "value": "<dateTime>"
+                        },
+                        {
+                          "description": "Model version date.",
+                          "key": "model",
+                          "value": "<string>"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "Unauthorized",
+                  "code": 401,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"error\": \"<string>\",\n  \"message\": \"<string>\",\n  \"detail\": \"<string>\"\n}",
+                  "createdAt": "2026-07-28T03:29:03.000Z",
+                  "updatedAt": "2026-07-28T03:29:03.000Z",
+                  "uid": "35240-66ec7128-c501-44b7-9046-acebea391354"
+                }
+              ],
+              "createdAt": "2026-07-28T03:29:03.000Z",
+              "updatedAt": "2026-07-28T03:29:03.000Z",
+              "uid": "35240-8ea935ed-2a87-4e62-b138-e4be5a71e395"
+            }
+          ],
+          "id": "906f171c-8ba2-476a-80c9-5a48f8d5dd40",
+          "createdAt": "2026-07-28T03:29:03.000Z",
+          "updatedAt": "2026-07-28T03:29:03.000Z",
+          "uid": "35240-906f171c-8ba2-476a-80c9-5a48f8d5dd40"
+        },
+        {
+          "name": "WattTime Get Emissions Forecast",
+          "id": "b29faf0e-fe90-4df9-bea7-6c1d348b71c6",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{bearerToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/forecast?region=<string>&signal_type=health_damage&horizon_hours=<integer>&model=<string>",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "forecast"
+              ],
+              "query": [
+                {
+                  "description": "(Required) Grid region identifier (e.g., CAISO_NORTH).",
+                  "key": "region",
+                  "value": "<string>"
+                },
+                {
+                  "description": "(Required) The emissions signal type to forecast.",
+                  "key": "signal_type",
+                  "value": "health_damage"
+                },
+                {
+                  "description": "Number of hours ahead to forecast. Maximum varies by region. Default returns the full available forecast window.",
+                  "key": "horizon_hours",
+                  "value": "<integer>"
+                },
+                {
+                  "description": "Model version date to use. Defaults to the latest model.",
+                  "key": "model",
+                  "value": "<string>"
+                }
+              ]
+            },
+            "description": "Retrieve the current emissions forecast for a specified grid region and signal type. Real-time data is available within 5 minutes via this endpoint, covering a 24-72 hour forecast horizon. This is the primary endpoint for carbon-aware scheduling applications."
+          },
+          "response": [
+            {
+              "id": "579f0c90-0457-4ffe-bc49-91d7f16dee33",
+              "name": "Forecast emissions data for the requested region and signal.",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: bearer",
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/forecast?region=<string>&signal_type=health_damage&horizon_hours=<integer>&model=<string>",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "forecast"
+                  ],
+                  "query": [
+                    {
+                      "description": "(Required) Grid region identifier (e.g., CAISO_NORTH).",
+                      "key": "region",
+                      "value": "<string>"
+                    },
+                    {
+                      "description": "(Required) The emissions signal type to forecast.",
+                      "key": "signal_type",
+                      "value": "health_damage"
+                    },
+                    {
+                      "description": "Number of hours ahead to forecast. Maximum varies by region. Default returns the full available forecast window.",
+                      "key": "horizon_hours",
+                      "value": "<integer>"
+                    },
+                    {
+                      "description": "Model version date to use. Defaults to the latest model.",
+                      "key": "model",
+                      "value": "<string>"
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"meta\": {\n    \"region\": \"<string>\",\n    \"signal_type\": \"<string>\",\n    \"model\": {\n      \"date\": \"<string>\"\n    },\n    \"units\": \"<string>\",\n    \"generated_at\": \"<dateTime>\"\n  },\n  \"data\": [\n    {\n      \"point_time\": \"<dateTime>\",\n      \"value\": \"<double>\",\n      \"version\": \"<string>\"\n    },\n    {\n      \"point_time\": \"<dateTime>\",\n      \"value\": \"<double>\",\n      \"version\": \"<string>\"\n    }\n  ]\n}",
+              "createdAt": "2026-07-28T03:29:03.000Z",
+              "updatedAt": "2026-07-28T03:29:03.000Z",
+              "uid": "35240-579f0c90-0457-4ffe-bc49-91d7f16dee33"
+            },
+            {
+              "id": "280200f7-6513-4a8d-9869-1615798f63a4",
+              "name": "Bad request - invalid parameters.",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: bearer",
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/forecast?region=<string>&signal_type=health_damage&horizon_hours=<integer>&model=<string>",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "forecast"
+                  ],
+                  "query": [
+                    {
+                      "description": "(Required) Grid region identifier (e.g., CAISO_NORTH).",
+                      "key": "region",
+                      "value": "<string>"
+                    },
+                    {
+                      "description": "(Required) The emissions signal type to forecast.",
+                      "key": "signal_type",
+                      "value": "health_damage"
+                    },
+                    {
+                      "description": "Number of hours ahead to forecast. Maximum varies by region. Default returns the full available forecast window.",
+                      "key": "horizon_hours",
+                      "value": "<integer>"
+                    },
+                    {
+                      "description": "Model version date to use. Defaults to the latest model.",
+                      "key": "model",
+                      "value": "<string>"
+                    }
+                  ]
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"error\": \"<string>\",\n  \"message\": \"<string>\",\n  \"detail\": \"<string>\"\n}",
+              "createdAt": "2026-07-28T03:29:03.000Z",
+              "updatedAt": "2026-07-28T03:29:03.000Z",
+              "uid": "35240-280200f7-6513-4a8d-9869-1615798f63a4"
+            },
+            {
+              "id": "5a417060-96ef-4a44-898f-27660ac58e79",
+              "name": "Unauthorized.",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: bearer",
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/forecast?region=<string>&signal_type=health_damage&horizon_hours=<integer>&model=<string>",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "forecast"
+                  ],
+                  "query": [
+                    {
+                      "description": "(Required) Grid region identifier (e.g., CAISO_NORTH).",
+                      "key": "region",
+                      "value": "<string>"
+                    },
+                    {
+                      "description": "(Required) The emissions signal type to forecast.",
+                      "key": "signal_type",
+                      "value": "health_damage"
+                    },
+                    {
+                      "description": "Number of hours ahead to forecast. Maximum varies by region. Default returns the full available forecast window.",
+                      "key": "horizon_hours",
+                      "value": "<integer>"
+                    },
+                    {
+                      "description": "Model version date to use. Defaults to the latest model.",
+                      "key": "model",
+                      "value": "<string>"
+                    }
+                  ]
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"error\": \"<string>\",\n  \"message\": \"<string>\",\n  \"detail\": \"<string>\"\n}",
+              "createdAt": "2026-07-28T03:29:03.000Z",
+              "updatedAt": "2026-07-28T03:29:03.000Z",
+              "uid": "35240-5a417060-96ef-4a44-898f-27660ac58e79"
+            },
+            {
+              "id": "ace048d4-9d4c-489f-87fd-f34e982a0d70",
+              "name": "Forbidden - subscription plan does not include this region.",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: bearer",
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/forecast?region=<string>&signal_type=health_damage&horizon_hours=<integer>&model=<string>",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "forecast"
+                  ],
+                  "query": [
+                    {
+                      "description": "(Required) Grid region identifier (e.g., CAISO_NORTH).",
+                      "key": "region",
+                      "value": "<string>"
+                    },
+                    {
+                      "description": "(Required) The emissions signal type to forecast.",
+                      "key": "signal_type",
+                      "value": "health_damage"
+                    },
+                    {
+                      "description": "Number of hours ahead to forecast. Maximum varies by region. Default returns the full available forecast window.",
+                      "key": "horizon_hours",
+                      "value": "<integer>"
+                    },
+                    {
+                      "description": "Model version date to use. Defaults to the latest model.",
+                      "key": "model",
+                      "value": "<string>"
+                    }
+                  ]
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"error\": \"<string>\",\n  \"message\": \"<string>\",\n  \"detail\": \"<string>\"\n}",
+              "createdAt": "2026-07-28T03:29:03.000Z",
+              "updatedAt": "2026-07-28T03:29:03.000Z",
+              "uid": "35240-ace048d4-9d4c-489f-87fd-f34e982a0d70"
+            }
+          ],
+          "createdAt": "2026-07-28T03:29:03.000Z",
+          "updatedAt": "2026-07-28T03:29:03.000Z",
+          "uid": "35240-b29faf0e-fe90-4df9-bea7-6c1d348b71c6"
+        }
+      ],
+      "id": "6e1ec969-91b2-4036-8d48-532f7b39902e",
+      "createdAt": "2026-07-28T03:29:03.000Z",
+      "updatedAt": "2026-07-28T03:29:03.000Z",
+      "uid": "35240-6e1ec969-91b2-4036-8d48-532f7b39902e"
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://api.watttime.org/v3"
+    }
+  ]
+}

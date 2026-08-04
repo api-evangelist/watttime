@@ -1,0 +1,175 @@
+{
+  "info": {
+    "_postman_id": "07118942-ab56-4bc2-a1bd-bbd0cc94c06d",
+    "name": "WattTime Account API",
+    "description": "The WattTime Data API v3 provides access to real-time, forecast, and historical marginal emissions data for electric grids worldwide. Key signals include CO2 MOER (Marginal Operating Emissions Rate), health damage estimates, and CO2 AOER (Average Operating Emissions Rate). Coverage spans 342 grid regions in 210 countries and territories, with real-time data updated every five minutes. Authentication uses JWT bearer tokens obtained via the login endpoint using HTTP Basic Auth.\n\nContact Support:\n Name: WattTime Support\n Email: support@watttime.org",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "createdAt": "2026-07-28T03:28:59.000Z",
+    "updatedAt": "2026-07-28T03:28:59.000Z",
+    "lastUpdatedBy": "35240",
+    "uid": "35240-07118942-ab56-4bc2-a1bd-bbd0cc94c06d"
+  },
+  "item": [
+    {
+      "name": "my-access",
+      "item": [
+        {
+          "name": "WattTime Get My Access Information",
+          "id": "c3493064-69bd-4714-ba39-e3dcfd377ca7",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{bearerToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/my-access?signal_type=health_damage",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "my-access"
+              ],
+              "query": [
+                {
+                  "description": "Filter results by signal type. Valid values include co2_moer, co2_aoer, health_damage.",
+                  "key": "signal_type",
+                  "value": "health_damage"
+                }
+              ]
+            },
+            "description": "Returns the list of grid regions and signal types accessible to the authenticated account, along with model metadata including available model versions by region and signal. Useful for determining which regions and signals are available under the current subscription plan."
+          },
+          "response": [
+            {
+              "id": "84506373-f0ae-4ce5-a828-b9aab3c9144c",
+              "name": "List of accessible grid regions and available model versions.",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: bearer",
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/my-access?signal_type=health_damage",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "my-access"
+                  ],
+                  "query": [
+                    {
+                      "description": "Filter results by signal type. Valid values include co2_moer, co2_aoer, health_damage.",
+                      "key": "signal_type",
+                      "value": "health_damage"
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"signal_type\": \"<string>\",\n  \"regions\": [\n    {\n      \"region\": \"<string>\",\n      \"region_full_name\": \"<string>\",\n      \"signal_type\": \"<string>\",\n      \"model\": {\n        \"date\": \"<string>\"\n      },\n      \"data_start\": \"<dateTime>\",\n      \"access\": \"<string>\"\n    },\n    {\n      \"region\": \"<string>\",\n      \"region_full_name\": \"<string>\",\n      \"signal_type\": \"<string>\",\n      \"model\": {\n        \"date\": \"<string>\"\n      },\n      \"data_start\": \"<dateTime>\",\n      \"access\": \"<string>\"\n    }\n  ]\n}",
+              "createdAt": "2026-07-28T03:28:59.000Z",
+              "updatedAt": "2026-07-28T03:28:59.000Z",
+              "uid": "35240-84506373-f0ae-4ce5-a828-b9aab3c9144c"
+            },
+            {
+              "id": "c75d71d1-65f3-418c-844e-3ee4d9563f1d",
+              "name": "Unauthorized - invalid or expired token.",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: bearer",
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/my-access?signal_type=health_damage",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "my-access"
+                  ],
+                  "query": [
+                    {
+                      "description": "Filter results by signal type. Valid values include co2_moer, co2_aoer, health_damage.",
+                      "key": "signal_type",
+                      "value": "health_damage"
+                    }
+                  ]
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"error\": \"<string>\",\n  \"message\": \"<string>\",\n  \"detail\": \"<string>\"\n}",
+              "createdAt": "2026-07-28T03:28:59.000Z",
+              "updatedAt": "2026-07-28T03:28:59.000Z",
+              "uid": "35240-c75d71d1-65f3-418c-844e-3ee4d9563f1d"
+            }
+          ],
+          "createdAt": "2026-07-28T03:28:59.000Z",
+          "updatedAt": "2026-07-28T03:28:59.000Z",
+          "uid": "35240-c3493064-69bd-4714-ba39-e3dcfd377ca7"
+        }
+      ],
+      "id": "8a39db52-78c3-4fd1-a7de-f4be4aa9f5b0",
+      "createdAt": "2026-07-28T03:28:59.000Z",
+      "updatedAt": "2026-07-28T03:28:59.000Z",
+      "uid": "35240-8a39db52-78c3-4fd1-a7de-f4be4aa9f5b0"
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://api.watttime.org/v3"
+    }
+  ]
+}

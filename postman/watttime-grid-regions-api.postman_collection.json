@@ -1,0 +1,478 @@
+{
+  "info": {
+    "_postman_id": "a608f1ff-5f73-47d4-b26b-6893ab5ae213",
+    "name": "WattTime Account Grid Regions API",
+    "description": "The WattTime Data API v3 provides access to real-time, forecast, and historical marginal emissions data for electric grids worldwide. Key signals include CO2 MOER (Marginal Operating Emissions Rate), health damage estimates, and CO2 AOER (Average Operating Emissions Rate). Coverage spans 342 grid regions in 210 countries and territories, with real-time data updated every five minutes. Authentication uses JWT bearer tokens obtained via the login endpoint using HTTP Basic Auth.\n\nContact Support:\n Name: WattTime Support\n Email: support@watttime.org",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "createdAt": "2026-07-28T03:29:07.000Z",
+    "updatedAt": "2026-07-28T03:29:07.000Z",
+    "lastUpdatedBy": "35240",
+    "uid": "35240-a608f1ff-5f73-47d4-b26b-6893ab5ae213"
+  },
+  "item": [
+    {
+      "name": "region-from-loc",
+      "item": [
+        {
+          "name": "WattTime Get Grid Region from Location",
+          "id": "38c006ce-8aed-41d2-b053-469769c66ea5",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{bearerToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/region-from-loc?latitude=<float>&longitude=<float>&signal_type=health_damage",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "region-from-loc"
+              ],
+              "query": [
+                {
+                  "description": "(Required) Latitude of the location in decimal degrees.",
+                  "key": "latitude",
+                  "value": "<float>"
+                },
+                {
+                  "description": "(Required) Longitude of the location in decimal degrees.",
+                  "key": "longitude",
+                  "value": "<float>"
+                },
+                {
+                  "description": "Signal type to check region availability for. Defaults to co2_moer.",
+                  "key": "signal_type",
+                  "value": "health_damage"
+                }
+              ]
+            },
+            "description": "Identify the electric grid balancing authority or region for a given set of geographic coordinates (latitude and longitude). Returns the region identifier used in subsequent data requests."
+          },
+          "response": [
+            {
+              "id": "1ad0779c-1a06-4d26-b968-96e478a59000",
+              "name": "Grid region information for the specified coordinates.",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: bearer",
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/region-from-loc?latitude=<float>&longitude=<float>&signal_type=health_damage",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "region-from-loc"
+                  ],
+                  "query": [
+                    {
+                      "description": "(Required) Latitude of the location in decimal degrees.",
+                      "key": "latitude",
+                      "value": "<float>"
+                    },
+                    {
+                      "description": "(Required) Longitude of the location in decimal degrees.",
+                      "key": "longitude",
+                      "value": "<float>"
+                    },
+                    {
+                      "description": "Signal type to check region availability for. Defaults to co2_moer.",
+                      "key": "signal_type",
+                      "value": "health_damage"
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"region\": \"<string>\",\n  \"region_full_name\": \"<string>\",\n  \"signal_type\": \"<string>\"\n}",
+              "createdAt": "2026-07-28T03:29:08.000Z",
+              "updatedAt": "2026-07-28T03:29:08.000Z",
+              "uid": "35240-1ad0779c-1a06-4d26-b968-96e478a59000"
+            },
+            {
+              "id": "6182d814-d47f-4c00-a299-ffb656ed99c4",
+              "name": "Bad request - invalid or missing coordinates.",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: bearer",
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/region-from-loc?latitude=<float>&longitude=<float>&signal_type=health_damage",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "region-from-loc"
+                  ],
+                  "query": [
+                    {
+                      "description": "(Required) Latitude of the location in decimal degrees.",
+                      "key": "latitude",
+                      "value": "<float>"
+                    },
+                    {
+                      "description": "(Required) Longitude of the location in decimal degrees.",
+                      "key": "longitude",
+                      "value": "<float>"
+                    },
+                    {
+                      "description": "Signal type to check region availability for. Defaults to co2_moer.",
+                      "key": "signal_type",
+                      "value": "health_damage"
+                    }
+                  ]
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"error\": \"<string>\",\n  \"message\": \"<string>\",\n  \"detail\": \"<string>\"\n}",
+              "createdAt": "2026-07-28T03:29:08.000Z",
+              "updatedAt": "2026-07-28T03:29:08.000Z",
+              "uid": "35240-6182d814-d47f-4c00-a299-ffb656ed99c4"
+            },
+            {
+              "id": "c3ee9fc3-aa1d-4ef7-9245-2598d11d1203",
+              "name": "Unauthorized.",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: bearer",
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/region-from-loc?latitude=<float>&longitude=<float>&signal_type=health_damage",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "region-from-loc"
+                  ],
+                  "query": [
+                    {
+                      "description": "(Required) Latitude of the location in decimal degrees.",
+                      "key": "latitude",
+                      "value": "<float>"
+                    },
+                    {
+                      "description": "(Required) Longitude of the location in decimal degrees.",
+                      "key": "longitude",
+                      "value": "<float>"
+                    },
+                    {
+                      "description": "Signal type to check region availability for. Defaults to co2_moer.",
+                      "key": "signal_type",
+                      "value": "health_damage"
+                    }
+                  ]
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"error\": \"<string>\",\n  \"message\": \"<string>\",\n  \"detail\": \"<string>\"\n}",
+              "createdAt": "2026-07-28T03:29:08.000Z",
+              "updatedAt": "2026-07-28T03:29:08.000Z",
+              "uid": "35240-c3ee9fc3-aa1d-4ef7-9245-2598d11d1203"
+            },
+            {
+              "id": "0c0f5ad3-bef6-4772-ba13-802da1a729e3",
+              "name": "No grid region found for the specified coordinates.",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: bearer",
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/region-from-loc?latitude=<float>&longitude=<float>&signal_type=health_damage",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "region-from-loc"
+                  ],
+                  "query": [
+                    {
+                      "description": "(Required) Latitude of the location in decimal degrees.",
+                      "key": "latitude",
+                      "value": "<float>"
+                    },
+                    {
+                      "description": "(Required) Longitude of the location in decimal degrees.",
+                      "key": "longitude",
+                      "value": "<float>"
+                    },
+                    {
+                      "description": "Signal type to check region availability for. Defaults to co2_moer.",
+                      "key": "signal_type",
+                      "value": "health_damage"
+                    }
+                  ]
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"error\": \"<string>\",\n  \"message\": \"<string>\",\n  \"detail\": \"<string>\"\n}",
+              "createdAt": "2026-07-28T03:29:08.000Z",
+              "updatedAt": "2026-07-28T03:29:08.000Z",
+              "uid": "35240-0c0f5ad3-bef6-4772-ba13-802da1a729e3"
+            }
+          ],
+          "createdAt": "2026-07-28T03:29:08.000Z",
+          "updatedAt": "2026-07-28T03:29:08.000Z",
+          "uid": "35240-38c006ce-8aed-41d2-b053-469769c66ea5"
+        }
+      ],
+      "id": "10c3fb45-6e41-4767-ae7c-793e52ae72e7",
+      "createdAt": "2026-07-28T03:29:08.000Z",
+      "updatedAt": "2026-07-28T03:29:08.000Z",
+      "uid": "35240-10c3fb45-6e41-4767-ae7c-793e52ae72e7"
+    },
+    {
+      "name": "maps",
+      "item": [
+        {
+          "name": "WattTime Get Grid Region Boundary Maps",
+          "id": "3789e84a-6bfd-4d93-8f9a-c10fe76d2551",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{bearerToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/maps?signal_type=health_damage",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "maps"
+              ],
+              "query": [
+                {
+                  "description": "Filter maps by signal type availability.",
+                  "key": "signal_type",
+                  "value": "health_damage"
+                }
+              ]
+            },
+            "description": "Retrieve GeoJSON files showing the geographic boundaries of electric grid balancing authorities and grid regions accessible to the authenticated account. Useful for visualizing grid coverage areas on maps and verifying region boundaries."
+          },
+          "response": [
+            {
+              "id": "993c2957-54f4-46e4-b6c0-106c47f308c1",
+              "name": "GeoJSON representation of grid region boundaries.",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: bearer",
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/maps?signal_type=health_damage",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "maps"
+                  ],
+                  "query": [
+                    {
+                      "description": "Filter maps by signal type availability.",
+                      "key": "signal_type",
+                      "value": "health_damage"
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"type\": \"<string>\"\n}",
+              "createdAt": "2026-07-28T03:29:08.000Z",
+              "updatedAt": "2026-07-28T03:29:08.000Z",
+              "uid": "35240-993c2957-54f4-46e4-b6c0-106c47f308c1"
+            },
+            {
+              "id": "e10c75b6-b582-4694-ac1f-aef82a37e0eb",
+              "name": "Unauthorized.",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: bearer",
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/maps?signal_type=health_damage",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "maps"
+                  ],
+                  "query": [
+                    {
+                      "description": "Filter maps by signal type availability.",
+                      "key": "signal_type",
+                      "value": "health_damage"
+                    }
+                  ]
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"error\": \"<string>\",\n  \"message\": \"<string>\",\n  \"detail\": \"<string>\"\n}",
+              "createdAt": "2026-07-28T03:29:08.000Z",
+              "updatedAt": "2026-07-28T03:29:08.000Z",
+              "uid": "35240-e10c75b6-b582-4694-ac1f-aef82a37e0eb"
+            }
+          ],
+          "createdAt": "2026-07-28T03:29:08.000Z",
+          "updatedAt": "2026-07-28T03:29:08.000Z",
+          "uid": "35240-3789e84a-6bfd-4d93-8f9a-c10fe76d2551"
+        }
+      ],
+      "id": "a9b56d16-52b0-4385-9d08-a7ac211e478f",
+      "createdAt": "2026-07-28T03:29:08.000Z",
+      "updatedAt": "2026-07-28T03:29:08.000Z",
+      "uid": "35240-a9b56d16-52b0-4385-9d08-a7ac211e478f"
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://api.watttime.org/v3"
+    }
+  ]
+}

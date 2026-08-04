@@ -1,0 +1,22 @@
+{
+  "provider": "watttime",
+  "sources": [
+    "watttime-account-api-openapi.yml",
+    "watttime-authentication-api-openapi.yml",
+    "watttime-emissions-data-api-openapi.yml",
+    "watttime-forecasts-api-openapi.yml",
+    "watttime-grid-regions-api-openapi.yml"
+  ],
+  "outputs": [
+    "watttime-account-api-openapi.yml",
+    "watttime-authentication-api-openapi.yml",
+    "watttime-emissions-data-api-openapi.yml",
+    "watttime-forecasts-api-openapi.yml",
+    "watttime-grid-regions-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [],
+  "skipped": []
+}
