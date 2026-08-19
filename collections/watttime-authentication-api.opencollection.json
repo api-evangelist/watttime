@@ -1,0 +1,49 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "WattTime Account Authentication API",
+    "version": "3.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Authentication",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "WattTime Register New Account",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.watttime.org/v3/register",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create a new WattTime API account. Registration requires a username, password, email, and organization. After registration, use the login endpoint to obtain an access token."
+        },
+        {
+          "info": {
+            "name": "WattTime Login and Obtain Access Token",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.watttime.org/v3/login",
+            "auth": {
+              "type": "basic",
+              "username": "{{username}}",
+              "password": "{{password}}"
+            }
+          },
+          "docs": "Authenticate using HTTP Basic Auth (username and password) to obtain a JWT bearer token. The token expires after 30 minutes and must be included as an Authorization Bearer header on all subsequent API calls. If a data call returns HTTP 401, re-authenticate to get a new token."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

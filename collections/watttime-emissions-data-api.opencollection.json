@@ -1,0 +1,112 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "WattTime Account Emissions Data API",
+    "version": "3.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Emissions Data",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "WattTime Get Historical Emissions Data",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.watttime.org/v3/data",
+            "params": [
+              {
+                "name": "region",
+                "value": "CAISO_NORTH",
+                "type": "query",
+                "description": "Grid region identifier (e.g., CAISO_NORTH). Obtain from /region-from-loc or /my-access."
+              },
+              {
+                "name": "signal_type",
+                "value": "co2_moer",
+                "type": "query",
+                "description": "The emissions signal type to retrieve. Valid values: co2_moer, co2_aoer, health_damage."
+              },
+              {
+                "name": "start",
+                "value": "2026-04-01T00:00:00Z",
+                "type": "query",
+                "description": "Start of the time window in ISO 8601 format (UTC). Maximum window is 32 days."
+              },
+              {
+                "name": "end",
+                "value": "2026-04-02T00:00:00Z",
+                "type": "query",
+                "description": "End of the time window in ISO 8601 format (UTC)."
+              },
+              {
+                "name": "model",
+                "value": "2026-03-01",
+                "type": "query",
+                "description": "Model version date to use (e.g., 2026-03-01). Defaults to the latest available model for the region."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Retrieve historical emissions data for a specified grid region and signal type within a time window. The maximum query window is 32 days. For longer historical datasets, use the /historical endpoint to download CSV files. Available to ANALYST and PRO subscribers; preview available for CAISO_NORTH."
+        },
+        {
+          "info": {
+            "name": "WattTime Download Historical Emissions CSV",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.watttime.org/v3/historical",
+            "params": [
+              {
+                "name": "region",
+                "value": "CAISO_NORTH",
+                "type": "query",
+                "description": "Grid region identifier (e.g., CAISO_NORTH)."
+              },
+              {
+                "name": "signal_type",
+                "value": "co2_moer",
+                "type": "query",
+                "description": "The emissions signal type."
+              },
+              {
+                "name": "start",
+                "value": "2023-01-01",
+                "type": "query",
+                "description": "Start date for historical data download (YYYY-MM-DD)."
+              },
+              {
+                "name": "end",
+                "value": "2024-01-01",
+                "type": "query",
+                "description": "End date for historical data download (YYYY-MM-DD)."
+              },
+              {
+                "name": "model",
+                "value": "2026-03-01",
+                "type": "query",
+                "description": "Model version date."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Download multi-year historical emissions data as compressed CSV files. Returns a URL to download the CSV file for the specified grid region, signal type, and date range. Available to ANALYST and PRO subscribers."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

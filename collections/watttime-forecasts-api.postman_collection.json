@@ -1,0 +1,610 @@
+{
+  "item": [
+    {
+      "id": "02f573d8-89fe-48f3-b572-aa4ddaa29b10",
+      "name": "Forecasts",
+      "description": {
+        "content": "Retrieve emissions forecasts and historical forecast data.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "d52342c0-6038-4e51-8ca9-b82e73336ab9",
+          "name": "WattTime Get Emissions Forecast",
+          "request": {
+            "name": "WattTime Get Emissions Forecast",
+            "description": {
+              "content": "Retrieve the current emissions forecast for a specified grid region and signal type. Real-time data is available within 5 minutes via this endpoint, covering a 24-72 hour forecast horizon. This is the primary endpoint for carbon-aware scheduling applications.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "forecast"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "region",
+                  "value": "<string>",
+                  "description": "(Required) Grid region identifier (e.g., CAISO_NORTH)."
+                },
+                {
+                  "disabled": false,
+                  "key": "signal_type",
+                  "value": "<string>",
+                  "description": "(Required) The emissions signal type to forecast."
+                },
+                {
+                  "disabled": false,
+                  "key": "horizon_hours",
+                  "value": "<integer>",
+                  "description": "Number of hours ahead to forecast. Maximum varies by region. Default returns the full available forecast window."
+                },
+                {
+                  "disabled": false,
+                  "key": "model",
+                  "value": "<string>",
+                  "description": "Model version date to use. Defaults to the latest model."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{bearerToken}}"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "1c18a83c-4d10-459d-8d53-f9181ea9709b",
+              "name": "Forecast emissions data for the requested region and signal.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "forecast"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "region",
+                      "value": "CAISO_NORTH"
+                    },
+                    {
+                      "key": "signal_type",
+                      "value": "co2_moer"
+                    },
+                    {
+                      "key": "horizon_hours",
+                      "value": "24"
+                    },
+                    {
+                      "key": "model",
+                      "value": "2026-03-01"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"meta\": {\n    \"region\": \"CAISO_NORTH\",\n    \"signal_type\": \"co2_moer\",\n    \"model\": {\n      \"date\": \"2026-03-01\"\n    },\n    \"units\": \"lbs_co2_per_mwh\",\n    \"generated_at\": \"2026-05-03T10:00:00+00:00\"\n  },\n  \"data\": [\n    {\n      \"point_time\": \"2026-05-03T10:05:00+00:00\",\n      \"value\": 387.2,\n      \"version\": \"2026-03-01\"\n    },\n    {\n      \"point_time\": \"2026-05-03T10:10:00+00:00\",\n      \"value\": 391.4,\n      \"version\": \"2026-03-01\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "87d07e14-1c5c-4262-85f4-4f8a28d6ddd1",
+              "name": "Bad request - invalid parameters.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "forecast"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "region",
+                      "value": "CAISO_NORTH"
+                    },
+                    {
+                      "key": "signal_type",
+                      "value": "co2_moer"
+                    },
+                    {
+                      "key": "horizon_hours",
+                      "value": "24"
+                    },
+                    {
+                      "key": "model",
+                      "value": "2026-03-01"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"unauthorized\",\n  \"message\": \"Invalid or expired token. Please re-authenticate.\",\n  \"detail\": \"Token has expired. Please call /login to get a new token.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "962a5aab-b840-4e72-969e-c8d4abb993c3",
+              "name": "Unauthorized.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "forecast"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "region",
+                      "value": "CAISO_NORTH"
+                    },
+                    {
+                      "key": "signal_type",
+                      "value": "co2_moer"
+                    },
+                    {
+                      "key": "horizon_hours",
+                      "value": "24"
+                    },
+                    {
+                      "key": "model",
+                      "value": "2026-03-01"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"unauthorized\",\n  \"message\": \"Invalid or expired token. Please re-authenticate.\",\n  \"detail\": \"Token has expired. Please call /login to get a new token.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "33855394-f921-49dd-bd10-4d06988ea190",
+              "name": "Forbidden - subscription plan does not include this region.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "forecast"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "region",
+                      "value": "CAISO_NORTH"
+                    },
+                    {
+                      "key": "signal_type",
+                      "value": "co2_moer"
+                    },
+                    {
+                      "key": "horizon_hours",
+                      "value": "24"
+                    },
+                    {
+                      "key": "model",
+                      "value": "2026-03-01"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"unauthorized\",\n  \"message\": \"Invalid or expired token. Please re-authenticate.\",\n  \"detail\": \"Token has expired. Please call /login to get a new token.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "d0d3986c-152e-4f1f-b014-c57228788d86",
+          "name": "WattTime Get Historical Forecast Data",
+          "request": {
+            "name": "WattTime Get Historical Forecast Data",
+            "description": {
+              "content": "Retrieve previously generated forecast data for a specific historical time window. Useful for back-testing carbon-aware scheduling algorithms and analyzing forecast accuracy over time.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "forecast",
+                "historical"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "region",
+                  "value": "<string>",
+                  "description": "(Required) Grid region identifier (e.g., CAISO_NORTH)."
+                },
+                {
+                  "disabled": false,
+                  "key": "signal_type",
+                  "value": "<string>",
+                  "description": "(Required) The emissions signal type."
+                },
+                {
+                  "disabled": false,
+                  "key": "start",
+                  "value": "<dateTime>",
+                  "description": "(Required) Start of the historical forecast window (ISO 8601 UTC)."
+                },
+                {
+                  "disabled": false,
+                  "key": "end",
+                  "value": "<dateTime>",
+                  "description": "(Required) End of the historical forecast window (ISO 8601 UTC)."
+                },
+                {
+                  "disabled": false,
+                  "key": "model",
+                  "value": "<string>",
+                  "description": "Model version date."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{bearerToken}}"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "f20a707d-d4e5-4cf2-9e82-4b0ce8df01dc",
+              "name": "Historical forecast data for the specified window.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "forecast",
+                    "historical"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "region",
+                      "value": "CAISO_NORTH"
+                    },
+                    {
+                      "key": "signal_type",
+                      "value": "co2_moer"
+                    },
+                    {
+                      "key": "start",
+                      "value": "2026-04-01T00:00:00Z"
+                    },
+                    {
+                      "key": "end",
+                      "value": "2026-04-02T00:00:00Z"
+                    },
+                    {
+                      "key": "model",
+                      "value": "2026-03-01"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"meta\": {\n    \"region\": \"CAISO_NORTH\",\n    \"signal_type\": \"co2_moer\",\n    \"model\": {\n      \"date\": \"2026-03-01\"\n    },\n    \"units\": \"lbs_co2_per_mwh\",\n    \"generated_at\": \"2026-04-01T00:00:00+00:00\"\n  },\n  \"data\": [\n    {\n      \"point_time\": \"2026-04-01T00:05:00+00:00\",\n      \"value\": 405.1,\n      \"version\": \"2026-03-01\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "7fe7d54c-5f42-4ec9-b0d7-63bd3221e3b9",
+              "name": "Bad request.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "forecast",
+                    "historical"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "region",
+                      "value": "CAISO_NORTH"
+                    },
+                    {
+                      "key": "signal_type",
+                      "value": "co2_moer"
+                    },
+                    {
+                      "key": "start",
+                      "value": "2026-04-01T00:00:00Z"
+                    },
+                    {
+                      "key": "end",
+                      "value": "2026-04-02T00:00:00Z"
+                    },
+                    {
+                      "key": "model",
+                      "value": "2026-03-01"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"unauthorized\",\n  \"message\": \"Invalid or expired token. Please re-authenticate.\",\n  \"detail\": \"Token has expired. Please call /login to get a new token.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "4f6f7786-010e-4b48-b3aa-dd3b46ab005d",
+              "name": "Unauthorized.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "forecast",
+                    "historical"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "region",
+                      "value": "CAISO_NORTH"
+                    },
+                    {
+                      "key": "signal_type",
+                      "value": "co2_moer"
+                    },
+                    {
+                      "key": "start",
+                      "value": "2026-04-01T00:00:00Z"
+                    },
+                    {
+                      "key": "end",
+                      "value": "2026-04-02T00:00:00Z"
+                    },
+                    {
+                      "key": "model",
+                      "value": "2026-03-01"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"unauthorized\",\n  \"message\": \"Invalid or expired token. Please re-authenticate.\",\n  \"detail\": \"Token has expired. Please call /login to get a new token.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.watttime.org/v3",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "646dbebd-584a-4869-96e4-2efa946aeab6",
+    "name": "WattTime Account Forecasts API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The WattTime Data API v3 provides access to real-time, forecast, and historical marginal emissions data for electric grids worldwide. Key signals include CO2 MOER (Marginal Operating Emissions Rate), health damage estimates, and CO2 AOER (Average Operating Emissions Rate). Coverage spans 342 grid regions in 210 countries and territories, with real-time data updated every five minutes. Authentication uses JWT bearer tokens obtained via the login endpoint using HTTP Basic Auth.\n\nContact Support:\n Name: WattTime Support\n Email: support@watttime.org",
+      "type": "text/plain"
+    }
+  }
+}

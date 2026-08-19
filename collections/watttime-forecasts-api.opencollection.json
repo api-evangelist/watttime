@@ -1,0 +1,106 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "WattTime Account Forecasts API",
+    "version": "3.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Forecasts",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "WattTime Get Emissions Forecast",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.watttime.org/v3/forecast",
+            "params": [
+              {
+                "name": "region",
+                "value": "CAISO_NORTH",
+                "type": "query",
+                "description": "Grid region identifier (e.g., CAISO_NORTH)."
+              },
+              {
+                "name": "signal_type",
+                "value": "co2_moer",
+                "type": "query",
+                "description": "The emissions signal type to forecast."
+              },
+              {
+                "name": "horizon_hours",
+                "value": "24",
+                "type": "query",
+                "description": "Number of hours ahead to forecast. Maximum varies by region. Default returns the full available forecast window."
+              },
+              {
+                "name": "model",
+                "value": "2026-03-01",
+                "type": "query",
+                "description": "Model version date to use. Defaults to the latest model."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Retrieve the current emissions forecast for a specified grid region and signal type. Real-time data is available within 5 minutes via this endpoint, covering a 24-72 hour forecast horizon. This is the primary endpoint for carbon-aware scheduling applications."
+        },
+        {
+          "info": {
+            "name": "WattTime Get Historical Forecast Data",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.watttime.org/v3/forecast/historical",
+            "params": [
+              {
+                "name": "region",
+                "value": "CAISO_NORTH",
+                "type": "query",
+                "description": "Grid region identifier (e.g., CAISO_NORTH)."
+              },
+              {
+                "name": "signal_type",
+                "value": "co2_moer",
+                "type": "query",
+                "description": "The emissions signal type."
+              },
+              {
+                "name": "start",
+                "value": "2026-04-01T00:00:00Z",
+                "type": "query",
+                "description": "Start of the historical forecast window (ISO 8601 UTC)."
+              },
+              {
+                "name": "end",
+                "value": "2026-04-02T00:00:00Z",
+                "type": "query",
+                "description": "End of the historical forecast window (ISO 8601 UTC)."
+              },
+              {
+                "name": "model",
+                "value": "2026-03-01",
+                "type": "query",
+                "description": "Model version date."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Retrieve previously generated forecast data for a specific historical time window. Useful for back-testing carbon-aware scheduling algorithms and analyzing forecast accuracy over time."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

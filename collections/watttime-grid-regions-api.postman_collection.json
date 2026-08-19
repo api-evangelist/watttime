@@ -1,0 +1,464 @@
+{
+  "item": [
+    {
+      "id": "33d47545-fbca-47cb-a23e-c597e44cd0bf",
+      "name": "Grid Regions",
+      "description": {
+        "content": "Discover and query grid balancing authorities and regions.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "c1d1b39a-015d-49be-8179-5f809bb95430",
+          "name": "WattTime Get Grid Region from Location",
+          "request": {
+            "name": "WattTime Get Grid Region from Location",
+            "description": {
+              "content": "Identify the electric grid balancing authority or region for a given set of geographic coordinates (latitude and longitude). Returns the region identifier used in subsequent data requests.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "region-from-loc"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "latitude",
+                  "value": "<float>",
+                  "description": "(Required) Latitude of the location in decimal degrees."
+                },
+                {
+                  "disabled": false,
+                  "key": "longitude",
+                  "value": "<float>",
+                  "description": "(Required) Longitude of the location in decimal degrees."
+                },
+                {
+                  "disabled": false,
+                  "key": "signal_type",
+                  "value": "<string>",
+                  "description": "Signal type to check region availability for. Defaults to co2_moer."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{bearerToken}}"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "d0ce297a-eba4-4380-9439-c72af60c109a",
+              "name": "Grid region information for the specified coordinates.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "region-from-loc"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "latitude",
+                      "value": "37.7749"
+                    },
+                    {
+                      "key": "longitude",
+                      "value": "-122.4194"
+                    },
+                    {
+                      "key": "signal_type",
+                      "value": "co2_moer"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"region\": \"CAISO_NORTH\",\n  \"region_full_name\": \"California ISO - North\",\n  \"signal_type\": \"co2_moer\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "daa31f86-bb89-4774-9bdf-54331be17a96",
+              "name": "Bad request - invalid or missing coordinates.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "region-from-loc"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "latitude",
+                      "value": "37.7749"
+                    },
+                    {
+                      "key": "longitude",
+                      "value": "-122.4194"
+                    },
+                    {
+                      "key": "signal_type",
+                      "value": "co2_moer"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"unauthorized\",\n  \"message\": \"Invalid or expired token. Please re-authenticate.\",\n  \"detail\": \"Token has expired. Please call /login to get a new token.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "60d188a9-7df1-4737-8e66-bda959fae5c3",
+              "name": "Unauthorized.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "region-from-loc"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "latitude",
+                      "value": "37.7749"
+                    },
+                    {
+                      "key": "longitude",
+                      "value": "-122.4194"
+                    },
+                    {
+                      "key": "signal_type",
+                      "value": "co2_moer"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"unauthorized\",\n  \"message\": \"Invalid or expired token. Please re-authenticate.\",\n  \"detail\": \"Token has expired. Please call /login to get a new token.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "dde4eebe-f9ea-428c-868a-e4635566337b",
+              "name": "No grid region found for the specified coordinates.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "region-from-loc"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "latitude",
+                      "value": "37.7749"
+                    },
+                    {
+                      "key": "longitude",
+                      "value": "-122.4194"
+                    },
+                    {
+                      "key": "signal_type",
+                      "value": "co2_moer"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"unauthorized\",\n  \"message\": \"Invalid or expired token. Please re-authenticate.\",\n  \"detail\": \"Token has expired. Please call /login to get a new token.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "9c3ffe81-c1dc-47ac-86d4-d33ab51f2181",
+          "name": "WattTime Get Grid Region Boundary Maps",
+          "request": {
+            "name": "WattTime Get Grid Region Boundary Maps",
+            "description": {
+              "content": "Retrieve GeoJSON files showing the geographic boundaries of electric grid balancing authorities and grid regions accessible to the authenticated account. Useful for visualizing grid coverage areas on maps and verifying region boundaries.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "maps"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "signal_type",
+                  "value": "<string>",
+                  "description": "Filter maps by signal type availability."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{bearerToken}}"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "e217f435-f97f-4ce6-a945-0f333bc95bc5",
+              "name": "GeoJSON representation of grid region boundaries.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "maps"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "signal_type",
+                      "value": "co2_moer"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"type\": \"FeatureCollection\",\n  \"features\": [\n    {\n      \"type\": \"Feature\",\n      \"geometry\": {\n        \"type\": \"Polygon\",\n        \"coordinates\": [\n          [\n            [\n              -122.5,\n              37.2\n            ],\n            [\n              -120.5,\n              37.2\n            ],\n            [\n              -120.5,\n              38.5\n            ],\n            [\n              -122.5,\n              38.5\n            ],\n            [\n              -122.5,\n              37.2\n            ]\n          ]\n        ]\n      },\n      \"properties\": {\n        \"region\": \"CAISO_NORTH\",\n        \"region_full_name\": \"California ISO - North\"\n      }\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "ca51ab4c-dd20-4f7f-9615-9ecbb4d27930",
+              "name": "Unauthorized.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "maps"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "signal_type",
+                      "value": "co2_moer"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"unauthorized\",\n  \"message\": \"Invalid or expired token. Please re-authenticate.\",\n  \"detail\": \"Token has expired. Please call /login to get a new token.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.watttime.org/v3",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "00281231-aad4-4e66-be40-51bd239f829d",
+    "name": "WattTime Account Grid Regions API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The WattTime Data API v3 provides access to real-time, forecast, and historical marginal emissions data for electric grids worldwide. Key signals include CO2 MOER (Marginal Operating Emissions Rate), health damage estimates, and CO2 AOER (Average Operating Emissions Rate). Coverage spans 342 grid regions in 210 countries and territories, with real-time data updated every five minutes. Authentication uses JWT bearer tokens obtained via the login endpoint using HTTP Basic Auth.\n\nContact Support:\n Name: WattTime Support\n Email: support@watttime.org",
+      "type": "text/plain"
+    }
+  }
+}

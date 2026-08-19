@@ -1,0 +1,76 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "WattTime Account Grid Regions API",
+    "version": "3.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Grid Regions",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "WattTime Get Grid Region from Location",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.watttime.org/v3/region-from-loc",
+            "params": [
+              {
+                "name": "latitude",
+                "value": "37.7749",
+                "type": "query",
+                "description": "Latitude of the location in decimal degrees."
+              },
+              {
+                "name": "longitude",
+                "value": "-122.4194",
+                "type": "query",
+                "description": "Longitude of the location in decimal degrees."
+              },
+              {
+                "name": "signal_type",
+                "value": "co2_moer",
+                "type": "query",
+                "description": "Signal type to check region availability for. Defaults to co2_moer."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Identify the electric grid balancing authority or region for a given set of geographic coordinates (latitude and longitude). Returns the region identifier used in subsequent data requests."
+        },
+        {
+          "info": {
+            "name": "WattTime Get Grid Region Boundary Maps",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.watttime.org/v3/maps",
+            "params": [
+              {
+                "name": "signal_type",
+                "value": "co2_moer",
+                "type": "query",
+                "description": "Filter maps by signal type availability."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Retrieve GeoJSON files showing the geographic boundaries of electric grid balancing authorities and grid regions accessible to the authenticated account. Useful for visualizing grid coverage areas on maps and verifying region boundaries."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,178 @@
+{
+  "item": [
+    {
+      "id": "5cbd2001-6b96-4c47-bbab-1fd8a401fa04",
+      "name": "Account",
+      "description": {
+        "content": "Account information and access management.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "c9d16d4b-0e1d-441a-a34d-4bc2b9ef2a0b",
+          "name": "WattTime Get My Access Information",
+          "request": {
+            "name": "WattTime Get My Access Information",
+            "description": {
+              "content": "Returns the list of grid regions and signal types accessible to the authenticated account, along with model metadata including available model versions by region and signal. Useful for determining which regions and signals are available under the current subscription plan.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "my-access"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "signal_type",
+                  "value": "<string>",
+                  "description": "Filter results by signal type. Valid values include co2_moer, co2_aoer, health_damage."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{bearerToken}}"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "7d3a1491-0281-41ff-9c26-cafc2ae86f23",
+              "name": "List of accessible grid regions and available model versions.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "my-access"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "signal_type",
+                      "value": "co2_moer"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"signal_type\": \"co2_moer\",\n  \"regions\": [\n    {\n      \"region\": \"CAISO_NORTH\",\n      \"region_full_name\": \"California ISO - North\",\n      \"signal_type\": \"co2_moer\",\n      \"model\": {\n        \"date\": \"2026-03-01\"\n      },\n      \"data_start\": \"2019-01-01T00:00:00Z\",\n      \"access\": \"read\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "b2412dff-ae04-4191-a6c9-e698383dc25c",
+              "name": "Unauthorized - invalid or expired token.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "my-access"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "signal_type",
+                      "value": "co2_moer"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"unauthorized\",\n  \"message\": \"Invalid or expired token. Please re-authenticate.\",\n  \"detail\": \"Token has expired. Please call /login to get a new token.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.watttime.org/v3",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "14491357-76e7-4f92-bbd8-c2e88c711175",
+    "name": "WattTime Account API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The WattTime Data API v3 provides access to real-time, forecast, and historical marginal emissions data for electric grids worldwide. Key signals include CO2 MOER (Marginal Operating Emissions Rate), health damage estimates, and CO2 AOER (Average Operating Emissions Rate). Coverage spans 342 grid regions in 210 countries and territories, with real-time data updated every five minutes. Authentication uses JWT bearer tokens obtained via the login endpoint using HTTP Basic Auth.\n\nContact Support:\n Name: WattTime Support\n Email: support@watttime.org",
+      "type": "text/plain"
+    }
+  }
+}

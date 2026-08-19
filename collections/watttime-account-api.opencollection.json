@@ -1,0 +1,41 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "WattTime Account API",
+    "version": "3.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Account",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "WattTime Get My Access Information",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.watttime.org/v3/my-access",
+            "params": [
+              {
+                "name": "signal_type",
+                "value": "co2_moer",
+                "type": "query",
+                "description": "Filter results by signal type. Valid values include co2_moer, co2_aoer, health_damage."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Returns the list of grid regions and signal types accessible to the authenticated account, along with model metadata including available model versions by region and signal. Useful for determining which regions and signals are available under the current subscription plan."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
