@@ -35,7 +35,7 @@ tags:
   - Clean Energy
 created: '2025-05-02'
 modified: '2026-05-19'
-specificationVersion: '0.19'
+specificationVersion: '0.23'
 apis:
 - aid: watttime:watttime-python-client
   name: WattTime Python Client
