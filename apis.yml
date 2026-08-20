@@ -139,6 +139,8 @@ apis:
   humanURL: https://docs.watttime.org/
   baseURL: https://api.watttime.org/v3
   tags:
+  - Forecast
+  tags_raw:
   - Forecasts
   properties:
   - type: OpenAPI
