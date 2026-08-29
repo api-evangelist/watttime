@@ -1,4 +1,4 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
   title: WattTime Account Emissions Data API
   description: The WattTime Data API v3 provides access to real-time, forecast, and historical marginal emissions data for electric grids worldwide. Key signals include CO2 MOER (Marginal Operating Emissions Rate), health damage estimates, and CO2 AOER (Average Operating Emissions Rate). Coverage spans 342 grid regions in 210 countries and territories, with real-time data updated every five minutes. Authentication uses JWT bearer tokens obtained via the login endpoint using HTTP Basic Auth.
@@ -204,33 +204,26 @@ paths:
         dispatcher: FALLBACK
 components:
   schemas:
-    DataResponse:
+    HistoricalDownloadResponse:
       type: object
       properties:
-        meta:
-          $ref: '#/components/schemas/DataMeta'
-        data:
-          type: array
-          description: Array of emissions data points.
-          items:
-            $ref: '#/components/schemas/DataPoint'
-    DataPoint:
-      type: object
-      properties:
-        point_time:
+        region:
           type: string
-          format: date-time
-          description: Timestamp for the emissions data point (ISO 8601 UTC).
-          example: '2026-04-01T00:00:00+00:00'
-        value:
-          type: number
-          format: double
-          description: Emissions value in the units specified by the response meta.
-          example: 412.5
-        version:
+          description: Grid region identifier.
+          example: CAISO_NORTH
+        signal_type:
           type: string
-          description: Model version used for this data point.
+          description: Signal type.
+          example: co2_moer
+        model:
+          type: string
+          description: Model version date used.
           example: '2026-03-01'
+        download_url:
+          type: string
+          format: uri
+          description: URL to download the historical CSV file.
+          example: https://storage.watttime.org/historical/CAISO_NORTH_co2_moer_2023.csv.gz
     ErrorResponse:
       type: object
       properties:
@@ -246,6 +239,16 @@ components:
           type: string
           description: Additional error detail.
           example: Token has expired. Please call /login to get a new token.
+    DataResponse:
+      type: object
+      properties:
+        meta:
+          $ref: '#/components/schemas/DataMeta'
+        data:
+          type: array
+          description: Array of emissions data points.
+          items:
+            $ref: '#/components/schemas/DataPoint'
     DataMeta:
       type: object
       properties:
@@ -268,26 +271,23 @@ components:
           type: string
           description: Units for the data values.
           example: lbs_co2_per_mwh
-    HistoricalDownloadResponse:
+    DataPoint:
       type: object
       properties:
-        region:
+        point_time:
           type: string
-          description: Grid region identifier.
-          example: CAISO_NORTH
-        signal_type:
+          format: date-time
+          description: Timestamp for the emissions data point (ISO 8601 UTC).
+          example: '2026-04-01T00:00:00+00:00'
+        value:
+          type: number
+          format: double
+          description: Emissions value in the units specified by the response meta.
+          example: 412.5
+        version:
           type: string
-          description: Signal type.
-          example: co2_moer
-        model:
-          type: string
-          description: Model version date used.
+          description: Model version used for this data point.
           example: '2026-03-01'
-        download_url:
-          type: string
-          format: uri
-          description: URL to download the historical CSV file.
-          example: https://storage.watttime.org/historical/CAISO_NORTH_co2_moer_2023.csv.gz
   securitySchemes:
     basicAuth:
       type: http
