@@ -200,6 +200,8 @@ apis:
   - type: JSONStructure
     url: json-structure/watttime-data-response-structure.json
 common:
+  - type: Website
+    url: https://www.watttime.org/
   - type: PostmanWorkspace
     url: https://www.postman.com/kinlaneapi/watttime/overview
   - type: AgenticAccess
