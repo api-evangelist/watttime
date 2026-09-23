@@ -1,6 +1,6 @@
 openapi: 3.2.0
 info:
-  title: WattTime Account Grid Regions API
+  title: WattTime Grid Regions API
   description: The WattTime Data API v3 provides access to real-time, forecast, and historical marginal emissions data for electric grids worldwide. Key signals include CO2 MOER (Marginal Operating Emissions Rate), health damage estimates, and CO2 AOER (Average Operating Emissions Rate). Coverage spans 342 grid regions in 210 countries and territories, with real-time data updated every five minutes. Authentication uses JWT bearer tokens obtained via the login endpoint using HTTP Basic Auth.
   version: '3.0'
   contact:
@@ -160,21 +160,6 @@ paths:
         dispatcher: FALLBACK
 components:
   schemas:
-    ErrorResponse:
-      type: object
-      properties:
-        error:
-          type: string
-          description: Error type or code.
-          example: unauthorized
-        message:
-          type: string
-          description: Human-readable error message.
-          example: Invalid or expired token. Please re-authenticate.
-        detail:
-          type: string
-          description: Additional error detail.
-          example: Token has expired. Please call /login to get a new token.
     RegionResponse:
       type: object
       properties:
@@ -190,6 +175,21 @@ components:
           type: string
           description: Signal type for which the region was resolved.
           example: co2_moer
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: string
+          description: Error type or code.
+          example: unauthorized
+        message:
+          type: string
+          description: Human-readable error message.
+          example: Invalid or expired token. Please re-authenticate.
+        detail:
+          type: string
+          description: Additional error detail.
+          example: Token has expired. Please call /login to get a new token.
     GridMapsResponse:
       type: object
       description: GeoJSON FeatureCollection of grid region boundaries.

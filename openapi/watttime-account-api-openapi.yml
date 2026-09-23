@@ -73,6 +73,18 @@ paths:
         dispatcher: FALLBACK
 components:
   schemas:
+    MyAccessResponse:
+      type: object
+      properties:
+        signal_type:
+          type: string
+          description: The signal type filter applied to the response.
+          example: co2_moer
+        regions:
+          type: array
+          description: List of accessible grid regions with model metadata.
+          items:
+            $ref: '#/components/schemas/RegionAccess'
     ErrorResponse:
       type: object
       properties:
@@ -88,18 +100,6 @@ components:
           type: string
           description: Additional error detail.
           example: Token has expired. Please call /login to get a new token.
-    MyAccessResponse:
-      type: object
-      properties:
-        signal_type:
-          type: string
-          description: The signal type filter applied to the response.
-          example: co2_moer
-        regions:
-          type: array
-          description: List of accessible grid regions with model metadata.
-          items:
-            $ref: '#/components/schemas/RegionAccess'
     RegionAccess:
       type: object
       properties:

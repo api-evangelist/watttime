@@ -1,11 +1,7 @@
 {
   "provider": "watttime",
   "sources": [
-    "watttime-account-api-openapi.yml",
-    "watttime-authentication-api-openapi.yml",
-    "watttime-emissions-data-api-openapi.yml",
-    "watttime-forecasts-api-openapi.yml",
-    "watttime-grid-regions-api-openapi.yml"
+    "_ae-authored/watttime-openapi.yml"
   ],
   "outputs": [
     "watttime-account-api-openapi.yml",
@@ -18,12 +14,15 @@
   "errors": [],
   "warnings": [],
   "notes": [
-    "watttime-account-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
-    "watttime-authentication-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
-    "watttime-emissions-data-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
-    "watttime-forecasts-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
-    "watttime-grid-regions-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "sourced from openapi/_original/ (0 archived document(s)); previously refined output at the top level was skipped rather than re-split",
+    "watttime-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
     "apis.yml register: already-registered"
   ],
-  "skipped": []
+  "skipped": [
+    "watttime-account-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "watttime-authentication-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "watttime-emissions-data-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "watttime-forecasts-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "watttime-grid-regions-api-openapi.yml: previously refined output, superseded by openapi/_original/"
+  ]
 }
