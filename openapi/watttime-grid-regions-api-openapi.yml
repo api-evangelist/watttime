@@ -160,21 +160,6 @@ paths:
         dispatcher: FALLBACK
 components:
   schemas:
-    RegionResponse:
-      type: object
-      properties:
-        region:
-          type: string
-          description: Grid region identifier for the specified coordinates.
-          example: CAISO_NORTH
-        region_full_name:
-          type: string
-          description: Human-readable full name of the grid region.
-          example: California ISO - North
-        signal_type:
-          type: string
-          description: Signal type for which the region was resolved.
-          example: co2_moer
     ErrorResponse:
       type: object
       properties:
@@ -190,6 +175,21 @@ components:
           type: string
           description: Additional error detail.
           example: Token has expired. Please call /login to get a new token.
+    RegionResponse:
+      type: object
+      properties:
+        region:
+          type: string
+          description: Grid region identifier for the specified coordinates.
+          example: CAISO_NORTH
+        region_full_name:
+          type: string
+          description: Human-readable full name of the grid region.
+          example: California ISO - North
+        signal_type:
+          type: string
+          description: Signal type for which the region was resolved.
+          example: co2_moer
     GridMapsResponse:
       type: object
       description: GeoJSON FeatureCollection of grid region boundaries.
