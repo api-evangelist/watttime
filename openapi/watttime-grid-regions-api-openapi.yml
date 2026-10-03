@@ -175,6 +175,19 @@ components:
           type: string
           description: Additional error detail.
           example: Token has expired. Please call /login to get a new token.
+    GridMapsResponse:
+      type: object
+      description: GeoJSON FeatureCollection of grid region boundaries.
+      properties:
+        type:
+          type: string
+          description: GeoJSON type.
+          example: FeatureCollection
+        features:
+          type: array
+          description: Array of GeoJSON features representing grid regions.
+          items:
+            type: object
     RegionResponse:
       type: object
       properties:
@@ -190,19 +203,6 @@ components:
           type: string
           description: Signal type for which the region was resolved.
           example: co2_moer
-    GridMapsResponse:
-      type: object
-      description: GeoJSON FeatureCollection of grid region boundaries.
-      properties:
-        type:
-          type: string
-          description: GeoJSON type.
-          example: FeatureCollection
-        features:
-          type: array
-          description: Array of GeoJSON features representing grid regions.
-          items:
-            type: object
   securitySchemes:
     basicAuth:
       type: http

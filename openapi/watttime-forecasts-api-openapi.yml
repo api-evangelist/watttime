@@ -202,31 +202,6 @@ paths:
         dispatcher: FALLBACK
 components:
   schemas:
-    ErrorResponse:
-      type: object
-      properties:
-        error:
-          type: string
-          description: Error type or code.
-          example: unauthorized
-        message:
-          type: string
-          description: Human-readable error message.
-          example: Invalid or expired token. Please re-authenticate.
-        detail:
-          type: string
-          description: Additional error detail.
-          example: Token has expired. Please call /login to get a new token.
-    ForecastResponse:
-      type: object
-      properties:
-        meta:
-          $ref: '#/components/schemas/ForecastMeta'
-        data:
-          type: array
-          description: Array of forecast data points.
-          items:
-            $ref: '#/components/schemas/DataPoint'
     ForecastMeta:
       type: object
       properties:
@@ -254,6 +229,31 @@ components:
           format: date-time
           description: Timestamp when the forecast was generated.
           example: '2026-05-03T10:00:00+00:00'
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: string
+          description: Error type or code.
+          example: unauthorized
+        message:
+          type: string
+          description: Human-readable error message.
+          example: Invalid or expired token. Please re-authenticate.
+        detail:
+          type: string
+          description: Additional error detail.
+          example: Token has expired. Please call /login to get a new token.
+    ForecastResponse:
+      type: object
+      properties:
+        meta:
+          $ref: '#/components/schemas/ForecastMeta'
+        data:
+          type: array
+          description: Array of forecast data points.
+          items:
+            $ref: '#/components/schemas/DataPoint'
     DataPoint:
       type: object
       properties:
