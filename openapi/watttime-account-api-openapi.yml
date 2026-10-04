@@ -73,6 +73,21 @@ paths:
         dispatcher: FALLBACK
 components:
   schemas:
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: string
+          description: Error type or code.
+          example: unauthorized
+        message:
+          type: string
+          description: Human-readable error message.
+          example: Invalid or expired token. Please re-authenticate.
+        detail:
+          type: string
+          description: Additional error detail.
+          example: Token has expired. Please call /login to get a new token.
     MyAccessResponse:
       type: object
       properties:
@@ -117,21 +132,6 @@ components:
           type: string
           description: Access level for this region.
           example: read
-    ErrorResponse:
-      type: object
-      properties:
-        error:
-          type: string
-          description: Error type or code.
-          example: unauthorized
-        message:
-          type: string
-          description: Human-readable error message.
-          example: Invalid or expired token. Please re-authenticate.
-        detail:
-          type: string
-          description: Additional error detail.
-          example: Token has expired. Please call /login to get a new token.
   securitySchemes:
     basicAuth:
       type: http

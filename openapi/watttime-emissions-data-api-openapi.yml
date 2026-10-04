@@ -204,6 +204,23 @@ paths:
         dispatcher: FALLBACK
 components:
   schemas:
+    DataPoint:
+      type: object
+      properties:
+        point_time:
+          type: string
+          format: date-time
+          description: Timestamp for the emissions data point (ISO 8601 UTC).
+          example: '2026-04-01T00:00:00+00:00'
+        value:
+          type: number
+          format: double
+          description: Emissions value in the units specified by the response meta.
+          example: 412.5
+        version:
+          type: string
+          description: Model version used for this data point.
+          example: '2026-03-01'
     DataMeta:
       type: object
       properties:
@@ -226,26 +243,6 @@ components:
           type: string
           description: Units for the data values.
           example: lbs_co2_per_mwh
-    HistoricalDownloadResponse:
-      type: object
-      properties:
-        region:
-          type: string
-          description: Grid region identifier.
-          example: CAISO_NORTH
-        signal_type:
-          type: string
-          description: Signal type.
-          example: co2_moer
-        model:
-          type: string
-          description: Model version date used.
-          example: '2026-03-01'
-        download_url:
-          type: string
-          format: uri
-          description: URL to download the historical CSV file.
-          example: https://storage.watttime.org/historical/CAISO_NORTH_co2_moer_2023.csv.gz
     DataResponse:
       type: object
       properties:
@@ -271,23 +268,26 @@ components:
           type: string
           description: Additional error detail.
           example: Token has expired. Please call /login to get a new token.
-    DataPoint:
+    HistoricalDownloadResponse:
       type: object
       properties:
-        point_time:
+        region:
           type: string
-          format: date-time
-          description: Timestamp for the emissions data point (ISO 8601 UTC).
-          example: '2026-04-01T00:00:00+00:00'
-        value:
-          type: number
-          format: double
-          description: Emissions value in the units specified by the response meta.
-          example: 412.5
-        version:
+          description: Grid region identifier.
+          example: CAISO_NORTH
+        signal_type:
           type: string
-          description: Model version used for this data point.
+          description: Signal type.
+          example: co2_moer
+        model:
+          type: string
+          description: Model version date used.
           example: '2026-03-01'
+        download_url:
+          type: string
+          format: uri
+          description: URL to download the historical CSV file.
+          example: https://storage.watttime.org/historical/CAISO_NORTH_co2_moer_2023.csv.gz
   securitySchemes:
     basicAuth:
       type: http

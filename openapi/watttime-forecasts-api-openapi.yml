@@ -202,6 +202,38 @@ paths:
         dispatcher: FALLBACK
 components:
   schemas:
+    DataPoint:
+      type: object
+      properties:
+        point_time:
+          type: string
+          format: date-time
+          description: Timestamp for the emissions data point (ISO 8601 UTC).
+          example: '2026-04-01T00:00:00+00:00'
+        value:
+          type: number
+          format: double
+          description: Emissions value in the units specified by the response meta.
+          example: 412.5
+        version:
+          type: string
+          description: Model version used for this data point.
+          example: '2026-03-01'
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: string
+          description: Error type or code.
+          example: unauthorized
+        message:
+          type: string
+          description: Human-readable error message.
+          example: Invalid or expired token. Please re-authenticate.
+        detail:
+          type: string
+          description: Additional error detail.
+          example: Token has expired. Please call /login to get a new token.
     ForecastMeta:
       type: object
       properties:
@@ -229,21 +261,6 @@ components:
           format: date-time
           description: Timestamp when the forecast was generated.
           example: '2026-05-03T10:00:00+00:00'
-    ErrorResponse:
-      type: object
-      properties:
-        error:
-          type: string
-          description: Error type or code.
-          example: unauthorized
-        message:
-          type: string
-          description: Human-readable error message.
-          example: Invalid or expired token. Please re-authenticate.
-        detail:
-          type: string
-          description: Additional error detail.
-          example: Token has expired. Please call /login to get a new token.
     ForecastResponse:
       type: object
       properties:
@@ -254,23 +271,6 @@ components:
           description: Array of forecast data points.
           items:
             $ref: '#/components/schemas/DataPoint'
-    DataPoint:
-      type: object
-      properties:
-        point_time:
-          type: string
-          format: date-time
-          description: Timestamp for the emissions data point (ISO 8601 UTC).
-          example: '2026-04-01T00:00:00+00:00'
-        value:
-          type: number
-          format: double
-          description: Emissions value in the units specified by the response meta.
-          example: 412.5
-        version:
-          type: string
-          description: Model version used for this data point.
-          example: '2026-03-01'
   securitySchemes:
     basicAuth:
       type: http
